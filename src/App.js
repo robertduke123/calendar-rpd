@@ -1,14 +1,12 @@
 import React from "react";
-
-const date = new Date()
-console.log(date.getFullYear());
+import Calendar from "./state/components/calendar/Calendar";
+import Details from "./state/components/details/Details";
 
 function App() {
   return (
-    <div className="App">
-      {
-
-      }
+    <div className="app">
+      <Details/>
+      <Calendar/>
     </div>
   );
 }

@@ -1,24 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { startOfToday } from "date-fns"
+
+let today = startOfToday()
 
 const initialState = {
     user: {
         name: 'rob',
         age: '27'
     },
-    months: {
-        January: 31,
-        February: 28, 
-        March: 31,
-        April: 30,
-        May: 31,
-        June: 30,
-        July: 31,
-        August: 31,
-        September: 30,
-        October: 31,
-        November: 30,
-        December: 31
-    }
+    selectedDay: today,
+    currentMonth: ''
 }
 
 export const storeSlice = createSlice({
@@ -27,12 +18,20 @@ export const storeSlice = createSlice({
     reducers: {
         setUser: (state, action) => {
             state.user = action.payload
-        }
+        },
+        setSelectedDay: (state, action) => {
+            state.selectedDay = action.payload
+        },
+        // setCurrentMonth: (state, action) => {
+        //     state.user = action.payload
+        // }
     }
 })
 
 export const {
-    setUser
+    setUser,
+    setSelectedDay,
+    // setCurrentMonth
 } = storeSlice.actions
 
 export default storeSlice.reducer

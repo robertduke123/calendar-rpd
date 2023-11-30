@@ -1,0 +1,26 @@
+@import url(calendar.css);
+@import url(details.css);
+
+:root{
+  --background: #E6E6FA;
+}
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: sans-serif;
+  background-color: var(--background);
+}
+
+.app {
+  width: 80%;
+  height: 100vh;
+  margin: auto;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+}

@@ -9,7 +9,35 @@ const initialState = {
         age: '27'
     },
     selectedDay: today,
-    currentMonth: ''
+    // currentMonth: '',
+    items: [
+        {
+            name: 'You have a meeting',
+            details: 'meeting with the new ceo',
+            dates: ['Mon Dec 04 2023'],
+            time: '09:00',
+            Sun: false,
+            Mon: false,
+            Tue: false,
+            Wed: false,
+            Thu: false,
+            Fri: false,
+            Sat: false
+        },
+        {
+            name: 'Staff Part',
+            details: 'staff party with the fuel',
+            dates: [],
+            time: '09:00',
+            Sun: true,
+            Mon: false,
+            Tue: false,
+            Wed: false,
+            Thu: false,
+            Fri: true,
+            Sat: false
+        }
+    ]
 }
 
 export const storeSlice = createSlice({

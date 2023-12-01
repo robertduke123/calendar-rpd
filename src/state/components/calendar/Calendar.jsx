@@ -9,6 +9,7 @@ export default function Calendar() {
 let today = startOfToday()
 const dispatch = useDispatch()
 const selectedDay = useSelector(state => state.store.selectedDay)
+const items = useSelector(state => state.store.items)
 
 
 
@@ -48,11 +49,22 @@ return(
 
             {
                 days.map((day, dayIndx) => {
+                    // console.log(items.map((item) =>  item.dates.includes(format(day, 'E MMM dd yyyy'))))
                     let colorClass = 
+                        items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ||
+                        items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-event' :
+                        
                         isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-day' :
+                        
                         !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-month' :
+                        
                         isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit day' :
+                        
+                        items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) ||
+                        items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit event' :
+                        
                         !isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit month' :
+                        
                         'calendar-unit'
 
                         let firstDay = getDay(day)

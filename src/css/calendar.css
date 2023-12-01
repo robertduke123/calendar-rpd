@@ -1,5 +1,5 @@
 .calendar {
-    width: 40%;
+    width: 50%;
 }
 
 .calendar-head {
@@ -33,7 +33,6 @@
 }
 
 .calendar-unit {
-    cursor: pointer;
     width: 35px;
     height: 35px;
     margin: 2.5px;
@@ -49,11 +48,13 @@
     }
 }
 
-.calendar-unit:hover {
+.month:hover,
+.day:hover {
     background-color: rgb(233, 233, 233);
 }
 
 .month {
+    cursor: pointer;
     color: black
 }
 
@@ -64,11 +65,24 @@
 }
 
 .day {
+    cursor: pointer;
     color: red;
 }
 
 .select-day,
 .select-day:hover {
     background-color: red;
+    color: white;
+}
+
+.event{
+    cursor: pointer;
+    background-color: rgb(219, 246, 255);
+    color: black;
+}
+
+.select-event,
+.select-event:hover{
+    background-color: rgb(63, 137, 161);
     color: white;
 }

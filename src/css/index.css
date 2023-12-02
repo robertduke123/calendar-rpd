@@ -20,7 +20,7 @@ body{
   width: 70%;
   height: 100vh;
   margin: auto;
-  background-color: white;
+  /* background-color: white; */
   display: flex;
   justify-content: space-between;
 }

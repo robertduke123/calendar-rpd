@@ -9,12 +9,11 @@ const initialState = {
         age: '27'
     },
     selectedDay: today,
-    // currentMonth: '',
     items: [
         {
             name: 'You have a meeting',
             details: 'meeting with the new ceo',
-            dates: ['Mon Dec 04 2023'],
+            dates: ['Mon Dec 04 2023', 'Tue Dec 05 2023'],
             time: '09:00',
             Sun: false,
             Mon: false,
@@ -37,7 +36,8 @@ const initialState = {
             Fri: true,
             Sat: false
         }
-    ]
+    ],
+    selectedEvent: {}
 }
 
 export const storeSlice = createSlice({
@@ -50,16 +50,16 @@ export const storeSlice = createSlice({
         setSelectedDay: (state, action) => {
             state.selectedDay = action.payload
         },
-        // setCurrentMonth: (state, action) => {
-        //     state.user = action.payload
-        // }
+        setSelectedEvent: (state, action) => {
+            state.selectedEvent = action.payload
+        }
     }
 })
 
 export const {
     setUser,
     setSelectedDay,
-    // setCurrentMonth
+    setSelectedEvent
 } = storeSlice.actions
 
 export default storeSlice.reducer

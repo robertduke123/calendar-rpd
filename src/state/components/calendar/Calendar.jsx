@@ -32,7 +32,7 @@ let days = eachDayOfInterval({start: startOfWeek(firstDayCurrentMonth), end: end
 }
 
 return(
-    <div className='calendar'>
+    <div className='calendar flex-col-cent'>
         <div className="calendar-head">
             <h3>{format(firstDayCurrentMonth, 'MMMM yyyy')}</h3>
             <div className="dir-btn" onClick={prevMonth}>&#10094;</div>            

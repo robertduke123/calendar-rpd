@@ -1,11 +1,13 @@
 import { format } from 'date-fns';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedEvent } from '../..';
 
 export default function Details() {
 
     const selectedDay = useSelector(state => state.store.selectedDay)
     const items = useSelector(state => state.store.items)
+    const dispatch = useDispatch()
     // const items = [
     //     {
     //         name: 'You have a meeting',
@@ -43,12 +45,12 @@ export default function Details() {
                     console.log(item[format(selectedDay, 'E')]);
                     if(item.dates.includes(format(selectedDay, 'E MMM dd yyyy')) || item[format(selectedDay, 'E')]) {                     
                     return (
-                    <div key={'event' + index} className="event-item">
+                    <div key={'event' + index} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                         <p>{item.name}</p>
                         <div className="event-info" style={{width: '100%',display: 'flex', justifyContent: 'space-around'}}>
                             <h3>{item.time}</h3>
                             {item.dates.length > 0 ?
-                                <p>{item.dates[0]}</p> :
+                                <p>{item.dates.map((date) => {if (date === format(selectedDay, 'E MMM dd yyyy')) return date})}</p> :
                                 <div className='days' style={{width: '150px', display: 'flex', justifyContent: 'space-around'}}>
                                     <p style={{color: item.Sun && 'darkBlue'}}>S</p>
                                     <p style={{color: item.Mon && 'darkBlue'}}>M</p>

@@ -1,7 +1,7 @@
 .calendar {
-    width: 49%;
-    height: 380px;
-    padding: 10px 0 0 30px;
+    width: 100%;
+    height: 340px;
+    padding-left: 30px;
     margin-top: 10px;
     background-color: white;
     border-radius: 10px;
@@ -9,7 +9,7 @@
 }
 
 .calendar-head {
-    margin: 15px 0;
+    margin: 15px 0 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,14 +83,14 @@
     color: white;
 }
 
-.event{
+.ev{
     cursor: pointer;
     background-color: rgb(219, 246, 255);
     color: black;
 }
 
-.select-event,
-.select-event:hover{
+.select-ev,
+.select-ev:hover{
     background-color: rgb(63, 137, 161);
     color: white;
 }

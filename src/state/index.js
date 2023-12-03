@@ -8,12 +8,13 @@ const initialState = {
         name: 'rob',
         age: '27'
     },
-    selectedDay: today,
+    selectedDay: '',
     items: [
         {
             name: 'You have a meeting',
             details: 'meeting with the new ceo',
             dates: ['Mon Dec 04 2023', 'Tue Dec 05 2023'],
+            location: 'some random place',
             time: '09:00',
             Sun: false,
             Mon: false,
@@ -26,10 +27,11 @@ const initialState = {
         {
             name: 'Staff Part',
             details: 'staff party with the fuel',
+            location: 'a shithole in the middle of knowhere',
             dates: [],
             time: '09:00',
-            Sun: true,
-            Mon: false,
+            Sun: false,
+            Mon: true,
             Tue: false,
             Wed: false,
             Thu: false,

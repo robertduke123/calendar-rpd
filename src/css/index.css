@@ -1,5 +1,7 @@
 @import url(calendar.css);
 @import url(details.css);
+@import url(event.css);
+@import url(fullYear.css);
 
 :root{
   --background: #E6E6FA;
@@ -20,9 +22,33 @@ body{
   width: 70%;
   height: 100vh;
   margin: auto;
-  /* background-color: white; */
   display: flex;
   justify-content: space-between;
+}
+
+.containers{
+  width: 49.5%;
+  margin: 10px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.x-btn{
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  border: 1px solid lightgray;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.x-btn:hover{
+  border: 1px solid rgb(161, 95, 95);
+  color: rgb(161, 95, 95);
 }
 
 .flex-col-cent{
@@ -34,5 +60,11 @@ body{
 .flex-row-cent {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.flex-row-around{
+  display: flex;
+  justify-content: space-around;
   align-items: center;
 }

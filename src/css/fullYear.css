@@ -1,16 +1,28 @@
 .full-year{
     margin-bottom: 10px;
     padding: 20px;
+}
+
+.full-head{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.full-container{
     display: grid;
     grid-template-columns: repeat(28, 1fr);
     gap: 3px;
 }
 
 .full-unit{
-    cursor: pointer;
     width: 12px;
     height: 12px;
     /* margin: 2px; */
     border: .5px solid rgb(213, 213, 213);
     border-radius: 2px;
+}
+
+.hov:hover{
+    border: .5px solid rgb(67, 67, 67);
 }

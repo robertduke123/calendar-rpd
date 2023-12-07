@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, startOfToday, isToday, isEqual, parse, add, sub, getDay, startOfWeek } from 'date-fns'
+import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, startOfToday, isToday, isEqual, parse, add, sub, getDay, startOfWeek, isBefore, parseISO } from 'date-fns'
 import { setSelectedDay } from '../../../state';
 
 
@@ -11,11 +11,6 @@ const dispatch = useDispatch()
 const selectedDay = useSelector(state => state.store.selectedDay)
 const items = useSelector(state => state.store.items)
 
-
-
-console.log(selectedDay)
-
-// const [selectedDay, setSelectedDay] = useState(today)
 const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
  
 let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
@@ -51,12 +46,13 @@ return(
                 days.map((day, dayIndx) => {
                     // console.log(items.map((item) =>  item.dates.includes(format(day, 'E MMM dd yyyy'))))
                     let colorClass = 
+                        isBefore(day, today) ? 'calendar-unit before' :
                         items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ||
                         items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-ev' :
                         
-                        isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-day' :
+                        isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ? 'calendar-unit select-day' :
                         
-                        !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-month' :
+                        !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ? 'calendar-unit select-month' :
                         
                         isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit day' :
                         
@@ -69,8 +65,21 @@ return(
 
                         let firstDay = getDay(day)
                     
-                    return(                  
-                    <div key={day.toString()} className={colorClass} 
+                    return isBefore(day, today) ?
+                     <div key={day.toString()} className={colorClass} 
+                        style={{gridColumnStart: 
+                            dayIndx === 0 && firstDay === 0 ? '1' :
+                            dayIndx === 0 && firstDay === 1 ? '2' :
+                            dayIndx === 0 && firstDay === 2 ? '3' :
+                            dayIndx === 0 && firstDay === 3 ? '4' :
+                            dayIndx === 0 && firstDay === 4 ? '5' :
+                            dayIndx === 0 && firstDay === 5 ? '6' :
+                            dayIndx === 0 && firstDay === 6 && '7'
+                        }} 
+                    >
+                        <p dateTime={format(day, 'yyyy-mm-dd')}>{format(day, 'd')}</p>
+                    </div>                  
+                    :<div key={day.toString()} className={colorClass} 
                         style={{gridColumnStart: 
                             dayIndx === 0 && firstDay === 0 ? '1' :
                             dayIndx === 0 && firstDay === 1 ? '2' :
@@ -84,7 +93,7 @@ return(
                     >
                         <p dateTime={format(day, 'yyyy-mm-dd')}>{format(day, 'd')}</p>
                     </div> 
-                    )})
+                    })
             }
         </div>
     </div>

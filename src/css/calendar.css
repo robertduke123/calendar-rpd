@@ -83,6 +83,11 @@
     color: white;
 }
 
+.before{
+    cursor: default;
+    background-color: rgb(164, 237, 199);
+}
+
 .ev{
     cursor: pointer;
     background-color: rgb(219, 246, 255);
@@ -90,7 +95,7 @@
 }
 
 .select-ev,
-.select-ev:hover{
-    background-color: rgb(63, 137, 161);
+.ev:hover{
+    background-color: rgb(130, 182, 199);
     color: white;
 }

@@ -23,7 +23,7 @@ export default function Details() {
                     if(selectedDay !== '') {
                         if(item.dates.includes(format(selectedDay, 'E MMM dd yyyy')) || item[format(selectedDay, 'E')]) {                     
                         return (
-                        <div key={'event' + index} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
+                        <div key={'event' + index + 1} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
                                 <h3>{item.time}</h3>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { eachDayOfInterval, startOfToday, startOfYear, endOfYear, format, isBefore, add, sub, parse } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedDay } from '../..';
+import { setSelectedDay } from './../../state';
 
 export default function FullYear() {
 

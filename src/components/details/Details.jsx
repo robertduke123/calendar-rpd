@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedEvent, setSelectedDay } from '../..';
+import { setSelectedEvent, setSelectedDay } from './../../state';
 
 export default function Details() {
 
@@ -9,21 +9,21 @@ export default function Details() {
     const items = useSelector(state => state.store.items)
     const selectedEvent = useSelector(state => state.store.selectedEvent)
     const dispatch = useDispatch()
-    console.log(selectedEvent);
 
     return(
         <div className='details flex-col-cent'>
             <div className='flex-row-around' style={{justifyContent: selectedDay !== '' ? 'flex-end' : 'center', width: '300px'}}>
                 <h3 style={{margin: '20px 0', cursor: 'pointer'}}>{selectedDay !== '' ? format(selectedDay, 'E d MMMM yyyy') : 'All Events'}</h3>
-                {selectedDay !== '' && <div className='x-btn flex-row-cent' style={{marginLeft: '50px'}} onClick={() => dispatch(setSelectedDay(''))}>X</div>}
+                <div className='plus-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => dispatch(setSelectedDay(''))}>+</div>
+                {selectedDay !== '' && <div className='x-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => dispatch(setSelectedDay(''))}>X</div>}
             </div>
             
             <div className="details-container flex-col-cent">
-                {items?.map((item,index) => {
+                {items?.map((item, index) => {
                     if(selectedDay !== '') {
                         if(item.dates.includes(format(selectedDay, 'E MMM dd yyyy')) || item[format(selectedDay, 'E')]) {                     
                         return (
-                        <div key={'event' + index + 1} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
+                        <div key={'event-all' + index + 1} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
                                 <h3>{item.time}</h3>
@@ -43,8 +43,8 @@ export default function Details() {
                         </div>
                     )}} else {
                         if(item.dates.length > 0) {
-                        return item.dates.map((date) => (
-                        <div key={'event' + index} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
+                        return item.dates.map((date, indx) => (
+                        <div key={'event-dates ' + indx} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
                                 <h3>{item.time}</h3>
@@ -52,7 +52,7 @@ export default function Details() {
                             </div>
                         </div>   
                          )) } else {
-                        return <div key={'event' + index} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
+                        return <div key={'event-days' + index} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
                                 <h3>{item.time}</h3>

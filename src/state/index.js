@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { startOfToday } from "date-fns"
 
-let today = startOfToday()
+let date = new Date()
 
 const initialState = {
     user: {
@@ -9,13 +9,15 @@ const initialState = {
         age: '27'
     },
     selectedDay: '',
+    time: date,
     items: [
         {
             name: 'You have a meeting',
             details: 'meeting with the new ceo',
-            dates: ['Mon Dec 04 2023', 'Tue Dec 05 2023'],
+            dates: ['Mon Dec 04 2023', 'Fri Dec 08 2023'],
             location: 'some random place',
-            time: '09:00',
+            time: '10:30',
+            period: 'PM',
             Sun: false,
             Mon: false,
             Tue: false,
@@ -29,7 +31,8 @@ const initialState = {
             details: 'staff party with the fuel',
             location: 'a shithole in the middle of knowhere',
             dates: [],
-            time: '09:00',
+            time: '11:00',
+            time: 'AM',
             Sun: false,
             Mon: true,
             Tue: false,
@@ -39,7 +42,8 @@ const initialState = {
             Sat: false
         }
     ],
-    selectedEvent: {}
+    selectedEvent: {},
+    eventAlarm: {}
 }
 
 export const storeSlice = createSlice({
@@ -52,8 +56,14 @@ export const storeSlice = createSlice({
         setSelectedDay: (state, action) => {
             state.selectedDay = action.payload
         },
+        setTime: (state, action) => {
+            state.time = action.payload
+        },
         setSelectedEvent: (state, action) => {
             state.selectedEvent = action.payload
+        },
+        setEventAlarm: (state, action) => {
+            state.eventAlarm = action.payload
         }
     }
 })
@@ -61,7 +71,9 @@ export const storeSlice = createSlice({
 export const {
     setUser,
     setSelectedDay,
-    setSelectedEvent
+    setTime,
+    setSelectedEvent,
+    setEventAlarm
 } = storeSlice.actions
 
 export default storeSlice.reducer

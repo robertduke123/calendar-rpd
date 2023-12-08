@@ -2,6 +2,7 @@
 @import url(details.css);
 @import url(event.css);
 @import url(fullYear.css);
+@import url(alarm.css);
 
 :root{
   --background: #E6E6FA;
@@ -37,13 +38,19 @@ body{
   align-items: center;
 }
 
-.x-btn{
+.x-btn,
+.plus-btn{
   cursor: pointer;
   width: 25px;
   height: 25px;
   border: 1px solid lightgray;
   border-radius: 50%;
   font-size: 12px;
+}
+
+.plus-btn:hover{
+  border: 1px solid rgb(105, 161, 95);
+  color: rgb(105, 161, 95);
 }
 
 .x-btn:hover{

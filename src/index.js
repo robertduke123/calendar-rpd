@@ -10,7 +10,7 @@ import logger from 'redux-logger'
 
 const store = configureStore({
   reducer: {store: storeReducer},
-  middleware: [thunk, logger]
+  middleware: [thunk]
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, startOfToday, isToday, isEqual, parse, add, sub, getDay, startOfWeek, isBefore, parseISO } from 'date-fns'
-import { setSelectedDay } from '../../../state';
+import { setSelectedDay } from './../../state';
 
 
 export default function Calendar() {
@@ -10,6 +10,9 @@ let today = startOfToday()
 const dispatch = useDispatch()
 const selectedDay = useSelector(state => state.store.selectedDay)
 const items = useSelector(state => state.store.items)
+const time = useSelector(state => state.store.time)
+
+// console.log(today, time); 
 
 const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
  
@@ -47,8 +50,8 @@ return(
                     // console.log(items.map((item) =>  item.dates.includes(format(day, 'E MMM dd yyyy'))))
                     let colorClass = 
                         isBefore(day, today) ? 'calendar-unit before' :
-                        items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ||
-                        items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-ev' :
+                        items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ||
+                        items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ? 'calendar-unit select-ev' :
                         
                         isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ? 'calendar-unit select-day' :
                         

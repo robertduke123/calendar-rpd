@@ -75,3 +75,10 @@ body{
   justify-content: space-around;
   align-items: center;
 }
+
+.flex-col-around {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}

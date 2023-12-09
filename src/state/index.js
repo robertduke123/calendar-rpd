@@ -14,9 +14,9 @@ const initialState = {
         {
             name: 'You have a meeting',
             details: 'meeting with the new ceo',
-            dates: ['Mon Dec 04 2023', 'Fri Dec 08 2023'],
+            dates: ['Mon Dec 04 2023', 'Sat Dec 09 2023'],
             location: 'some random place',
-            time: '10:30',
+            time: '15:07:00',
             period: 'PM',
             Sun: false,
             Mon: false,
@@ -43,7 +43,7 @@ const initialState = {
         }
     ],
     selectedEvent: {},
-    eventAlarm: {}
+    eventAlarm: false
 }
 
 export const storeSlice = createSlice({

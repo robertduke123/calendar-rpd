@@ -1,0 +1,44 @@
+.add-container{
+    width: 350px;
+    height: 450px;
+    background-color: rgb(104, 144, 219);
+    border-radius: 10px;
+    color: white;
+}
+
+.add-head{
+    padding: 10px;
+}
+
+.add-changer{
+    cursor: pointer;
+    margin: 10px;
+    font-size: 22px;
+
+    & p{
+        margin: 10px 0;
+    }
+}
+
+.up, .down{
+    width: 28px;
+    height: 18px;background-color: rgb(78, 120, 198);
+    border: none;
+    border-radius: 5px 5px 0 0;
+    color: white;
+    font-size: 20px;
+}
+
+.up:hover, .down:hover{
+    background-color: rgb(58, 98, 173);
+}
+
+.up{
+    padding-top: 15px;
+    border-radius: 5px 5px 0 0;
+}
+
+.down{
+    padding-bottom: 15px;
+    border-radius: 0 0 5px 5px;
+}

@@ -14,6 +14,18 @@
     overflow-x: hidden;
 }
 
+.details-container::-webkit-scrollbar{
+    width: 10px;
+    background-color: rgb(233, 233, 233);
+    border-radius: 8px;
+}
+
+.details-container::-webkit-scrollbar-thumb{
+    width: 10px;
+    background-color: rgb(178, 178, 178);
+    border-radius: 8px;
+}
+
 .event-item{
     cursor: pointer;
     width: 90%;

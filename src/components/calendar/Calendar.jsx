@@ -10,9 +10,6 @@ let today = startOfToday()
 const dispatch = useDispatch()
 const selectedDay = useSelector(state => state.store.selectedDay)
 const items = useSelector(state => state.store.items)
-const time = useSelector(state => state.store.time)
-
-// console.log(today, time); 
 
 const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
  
@@ -47,7 +44,6 @@ return(
 
             {
                 days.map((day, dayIndx) => {
-                    // console.log(items.map((item) =>  item.dates.includes(format(day, 'E MMM dd yyyy'))))
                     let colorClass = 
                         isBefore(day, today) ? 'calendar-unit before' :
                         items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ||

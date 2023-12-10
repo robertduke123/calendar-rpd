@@ -3,6 +3,7 @@
 @import url(event.css);
 @import url(fullYear.css);
 @import url(alarm.css);
+@import url(addEvent.css);
 
 :root{
   --background: #E6E6FA;
@@ -17,6 +18,17 @@
 body{
   font-family: sans-serif;
   background-color: var(--background);
+}
+
+.cover{
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(197, 197, 197, 0.552);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .app {

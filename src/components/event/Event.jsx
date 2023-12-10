@@ -5,22 +5,26 @@ export default function Event() {
     const selectedEvent = useSelector(state => state.store.selectedEvent)
 
     return (
-        <div className='event flex-col-cent'>
-            <h3>{selectedEvent.name}</h3>
-            <p>{selectedEvent.details}</p>
+        <div className='event'>
+            <h3 className='flex-row-cent'>{selectedEvent.name}</h3> 
+            <div className="event-days">
             {selectedEvent.dates?.length > 0 ?
-            selectedEvent.dates.map(date => (
-                <h3>{date}</h3>
+            selectedEvent.dates.map((date, index) => (
+                    <p key={'dates' + index}>{date}</p>
             )) :
-            <div>
-                <p>{selectedEvent.Sun && 'Sunday'}</p>
-                <p>{selectedEvent.Mon && 'Monday'}</p>
-                <p>{selectedEvent.Tue && 'Tuesday'}</p>
-                <p>{selectedEvent.Wed && 'Wednesday'}</p>
-                <p>{selectedEvent.Thu && 'Thursday'}</p>
-                <p>{selectedEvent.Fri && 'Friday'}</p>
-                <p>{selectedEvent.Sat && 'Saturday'}</p>   
-            </div>}            
+            <div className='event-days event-grid'>
+                {selectedEvent.Sun && <p>Every Sun</p>}
+                {selectedEvent.Mon && <p>Every Mon</p>}
+                {selectedEvent.Tue && <p>Every Tue</p>}
+                {selectedEvent.Wed && <p>Every Wed</p>}
+                {selectedEvent.Thu && <p>Every Thu</p>}
+                {selectedEvent.Fri && <p>Every Fri</p>}
+                {selectedEvent.Sat && <p>Every Sat</p>}   
+            </div>}       
+            </div>           
+            <div className="event-description">
+                <p>{selectedEvent.details}</p>    
+            </div>                 
         </div>
     )
 }

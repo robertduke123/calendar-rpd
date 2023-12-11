@@ -7,7 +7,7 @@ export default function Event() {
     return (
         <div className='event'>
             <h3 className='flex-row-cent'>{selectedEvent.name}</h3> 
-            <div className="event-days">
+            <div className="event-days event-grid">
             {selectedEvent.dates?.length > 0 ?
             selectedEvent.dates.map((date, index) => (
                     <p key={'dates' + index}>{date}</p>

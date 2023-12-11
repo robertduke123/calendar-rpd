@@ -18,6 +18,7 @@ const eventAlarm = useSelector(state => state.store.eventAlarm)
 const showAdd = useSelector(state => state.store.showAdd)
 const selectedEvent = useSelector(state => state.store.selectedEvent)
 
+// console.log(items);
 
 const alarm = () => {
   let time = new Date()
@@ -27,7 +28,7 @@ const alarm = () => {
       if(date === format(time, 'E MMM dd yyyy')) {
         let eventTime = item.time
         if(item.period === 'PM') eventTime = `${String(parseInt(item.time[0] + item.time[1]) + 12)}:${item.time[3] + item.time[4]}:${item.time[6] + item.time[7]}`
-        console.log(eventTime, format(time, 'kk:mm:ss'));
+        // console.log(eventTime, format(time, 'kk:mm:ss'));
         if(eventTime == format(time, 'kk:mm:ss')) {
           dispatch(setEventAlarm(item))          
         }

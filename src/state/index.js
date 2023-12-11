@@ -8,36 +8,6 @@ const initialState = {
     selectedDay: '',
     showAdd: false,
     items: [
-        {
-            name: 'You have a meeting',
-            details: 'meeting with the new ceo',
-            dates: ['Mon Dec 04 2023', 'Sun Dec 10 2023'],
-            location: 'some random place',
-            time: '06:44:30',
-            period: 'PM',
-            Sun: false,
-            Mon: false,
-            Tue: false,
-            Wed: false,
-            Thu: false,
-            Fri: false,
-            Sat: false
-        },
-        {
-            name: 'Staff Part',
-            details: 'staff party with the fuel',
-            location: 'a shithole in the middle of knowhere',
-            dates: [],
-            time: '06:12:10',
-            period: 'PM',
-            Sun: true,
-            Mon: true,
-            Tue: true,
-            Wed: true,
-            Thu: true,
-            Fri: true,
-            Sat: true
-        }
     ],
     selectedEvent: false,
     eventAlarm: false
@@ -59,6 +29,9 @@ export const storeSlice = createSlice({
         setTime: (state, action) => {
             state.time = action.payload
         },
+        addEvent: (state, action) => {
+            state.items.push(action.payload)
+        },
         setSelectedEvent: (state, action) => {
             state.selectedEvent = action.payload
         },
@@ -73,6 +46,7 @@ export const {
     setSelectedDay,
     setShowAdd,
     setTime,
+    addEvent,
     setSelectedEvent,
     setEventAlarm
 } = storeSlice.actions

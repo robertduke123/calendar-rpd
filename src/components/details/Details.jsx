@@ -25,8 +25,8 @@ export default function Details() {
                         <div key={'event-all' + index + 1} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
-                                <h3>{item.period === 'PM' ?
-                                 `${String(parseInt(item.time[0] + item.time[1]) - 12)}:${item.time[3] + item.time[4]} ${item?.period}`
+                                <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
+                                `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
                                 :`${item.time[0]}${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`                                
                                 }</h3>                                
                                 {item.dates.length > 0 ?
@@ -49,10 +49,10 @@ export default function Details() {
                         <div key={'event-dates ' + indx} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
-                                <h3>{item.period === 'PM' ?
-                                 `${String(parseInt(item.time[0] + item.time[1]) - 12)}:${item.time[3] + item.time[4]} ${item?.period}`
+                                <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
+                                `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
                                 :`${item.time[0]}${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`                                
-                                }</h3>  
+                                }</h3>   
                                     <p>{date}</p>                            
                             </div>
                         </div>   
@@ -60,10 +60,10 @@ export default function Details() {
                         return <div key={'event-days' + index} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
-                                <h3>{item.period === 'PM' ?
-                                 `${String(parseInt(item.time[0] + item.time[1]) - 12)}:${item.time[3] + item.time[4]} ${item?.period}`
+                                <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
+                                `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
                                 :`${item.time[0]}${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`                                
-                                }</h3> 
+                                }</h3>   
                                 <div className='days' style={{width: '150px', display: 'flex', justifyContent: 'space-around'}}>
                                     <p style={{color: item.Sun && 'darkBlue'}}>S</p>
                                     <p style={{color: item.Mon && 'darkBlue'}}>M</p>

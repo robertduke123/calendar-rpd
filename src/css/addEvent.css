@@ -1,6 +1,6 @@
 .add-container{
     width: 350px;
-    height: 450px;
+    height: 680px;
     background-color: rgb(104, 144, 219);
     border-radius: 10px;
     color: white;
@@ -12,24 +12,25 @@
 
 .add-changer{
     cursor: pointer;
-    margin: 10px;
+    margin: 5px;
     font-size: 22px;
 
     & p{
-        margin: 10px 0;
+        margin: 2px 0;
     }
 }
 
 .up, .down{
     width: 28px;
-    height: 18px;background-color: rgb(78, 120, 198);
+    height: 18px;
+    background-color: rgb(78, 120, 198);
     border: none;
     border-radius: 5px 5px 0 0;
     color: white;
     font-size: 20px;
 }
 
-.up:hover, .down:hover{
+.up:hover, .down:hover, .add-btn:hover{
     background-color: rgb(58, 98, 173);
 }
 
@@ -41,4 +42,71 @@
 .down{
     padding-bottom: 15px;
     border-radius: 0 0 5px 5px;
+}
+
+.change {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgb(164, 164, 164);
+    border-radius: 50%;
+}
+
+.change:hover {
+    border: 1px solid black;
+}
+
+.add-week{
+    width: 280px;
+    height: 90px;
+    background-color: white;
+    border-radius: 8px;
+    color: black;
+}
+
+.add-day-btn{
+    width: 20px;
+    width: 20px;
+    color: gray;
+}
+
+.add-day-btn:hover{
+    color: black;
+}
+
+.add-day-on {
+    width: 20px;
+        width: 20px;
+    border: 1px solid black;
+    border-radius: 50%;
+    color: black;
+}
+
+.add-inputs{
+    & input, textarea{
+        font-family: sans-serif;
+        width: 280px;
+        height: 25px;
+        padding: 0 2px;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    & input{
+        height: 25px;
+    }
+
+    & textarea{
+        height: 150px;
+        padding: 5px 2px;
+    }
+}
+
+.add-btn {
+    cursor: pointer;
+    width: 280px;
+    height: 40px;
+    margin-top: 5px;
+    background-color: rgb(78, 120, 198);
+    border-radius: 8px;
 }

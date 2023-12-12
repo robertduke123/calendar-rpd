@@ -19,12 +19,21 @@
 .event-grid{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     justify-items: center;
+    
 }
 
-.event-days{
-    width: 300px;
-    height: 90px;
+.event-days-sc{
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.event-days,
+.event-days-sc{
+    width: 320px;
+    height: 100px;
+    overflow-y: hidden;
 
     & p{
         width: 150px;
@@ -38,7 +47,7 @@
 .event-description{
     width: 350px;
     height: 130px;
-    margin: 10px 0;
+    margin: 20px 0;
     padding: 5px 3px;
     background-color: rgb(223, 241, 246);
     border-radius: 8px;

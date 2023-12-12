@@ -9,6 +9,85 @@ export default function Details() {
     const items = useSelector(state => state.store.items)
     const dispatch = useDispatch()
 
+    let dates =[]
+    items.forEach(item => {
+        item.dates.forEach(date => dates.push(date))
+    })
+
+    function sorting(dates){
+        dates.sort((a,b) => parseInt(a.slice(11)) - parseInt(b.slice(11)))
+        console.log(dates);
+        let Jan = []
+        let Feb = []
+        let Mar = []
+        let Apr = []
+        let May = []
+        let Jun = []
+        let Jul = []
+        let Aug = []
+        let Sep = []
+        let Oct = []
+        let Nov = []
+        let Dec = []
+        dates.forEach(date => {
+            if( date.slice(4, 7) === 'Jan') {
+                Jan.push(date)
+                Jan.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Feb') {
+                Feb.push(date)
+                Feb.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Mar') {
+                Mar.push(date)
+                Mar.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Apr') {
+                Apr.push(date)
+                Apr.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'May') {
+                May.push(date)
+                May.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Jun') {
+                Jun.push(date)
+                Jun.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Jul') {
+                Jul.push(date)
+                Jul.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Aug') {
+                Aug.push(date)
+                Aug.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Sep') {
+                Sep.push(date)
+                Sep.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Oct') {
+                Oct.push(date)
+                Oct.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Nov') {
+                Nov.push(date)
+                Nov.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+            } 
+            if (date.slice(4, 7) === 'Dec') {
+                Dec.push(date)
+                Dec.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
+                console.log(Dec);
+            }
+       })
+        let newDate = Jan.concat(Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec)    
+        newDate.sort((a,b) => parseInt(a.slice(11)) - parseInt(b.slice(11)))
+        console.log(newDate);
+        return newDate    
+    }
+
+    let newDates = sorting(dates)
+
     return(
         <div className='details flex-col-cent'>
             <div className='flex-row-around' style={{justifyContent: selectedDay !== '' ? 'flex-end' : 'center', width: '300px'}}>
@@ -18,8 +97,9 @@ export default function Details() {
             </div>
             
             <div className="details-container flex-col-cent">
-                {items?.map((item, index) => {
-                    if(selectedDay !== '') {
+                {
+                 items?.map((item, index) => {
+                    if(selectedDay !== '') {                        
                         if(item.dates.includes(format(selectedDay, 'E MMM dd yyyy')) || item[format(selectedDay, 'E')]) {                     
                         return (
                         <div key={'event-all' + index + 1} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
@@ -45,8 +125,10 @@ export default function Details() {
                         </div>
                     )}} else {
                         if(item.dates.length > 0) {
-                        return item.dates.map((date, indx) => (
-                        <div key={'event-dates ' + indx} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
+                        return newDates?.map(newDate => {
+                        return item.dates.map((date, indx) => {
+                        if(date === newDate) {
+                        return <div key={'event-dates ' + indx} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
                                 <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
@@ -56,7 +138,7 @@ export default function Details() {
                                     <p>{date}</p>                            
                             </div>
                         </div>   
-                         )) } else {
+                         }})})} else {
                         return <div key={'event-days' + index} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
                             <p>{item.name}</p>
                             <div className="event-info">
@@ -75,8 +157,7 @@ export default function Details() {
                                 </div>                                                              
                             </div>
                         </div>
-                    }}                    
-                    })}
+                    }}})}
             </div>
         </div>
     )

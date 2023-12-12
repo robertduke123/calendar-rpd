@@ -27,6 +27,8 @@ export default function AddEvent() {
     const [sat, setSat] = useState(false)
     
 
+    // console.log(format(date[0], 'yyyy'));
+
     const nextMonth = () => {   
         let firstDayNextMonth = add(firstDayCurrentMonth, {months: 1})
         setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'))
@@ -198,7 +200,7 @@ export default function AddEvent() {
                         name: name,
                         details: description,
                         // location: 'a shithole in the middle of knowhere',
-                        dates: date,
+                        dates: date.sort(),
                         time: h + ':' + m + ':00',
                         period: period ? 'AM' : 'PM',
                         Sun: sun,

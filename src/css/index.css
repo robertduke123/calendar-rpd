@@ -1,3 +1,4 @@
+@import url(nav.css);
 @import url(calendar.css);
 @import url(details.css);
 @import url(event.css);
@@ -36,18 +37,26 @@ body{
   height: 100vh;
   margin: auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .containers{
   width: 49.5%;
-  margin: 10px;
+  margin: 10px 0;
+  padding-top: 50px;
   background-color: white;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+
+.containers:nth-of-type(1){
+  border-radius: 10px 0 0 10px;
+}
+
+.containers:nth-of-type(2) {
+  border-radius: 0 10px 10px 0;
 }
 
 .x-btn,

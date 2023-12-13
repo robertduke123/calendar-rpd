@@ -1,13 +1,14 @@
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedEvent, setSelectedDay, setShowAdd } from './../../state';
+import { setSelectedEvent, setSelectedDay, setShowAdd, setEditEvent } from './../../state';
 
 export default function Details() {
 
     const selectedDay = useSelector(state => state.store.selectedDay)
     const items = useSelector(state => state.store.items)
     const dispatch = useDispatch()
+    const [show, setShow] = useState([])
 
     let dates =[]
     items.forEach(item => {
@@ -16,7 +17,6 @@ export default function Details() {
 
     function sorting(dates){
         dates.sort((a,b) => parseInt(a.slice(11)) - parseInt(b.slice(11)))
-        console.log(dates);
         let Jan = []
         let Feb = []
         let Mar = []
@@ -77,21 +77,30 @@ export default function Details() {
             if (date.slice(4, 7) === 'Dec') {
                 Dec.push(date)
                 Dec.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-                console.log(Dec);
             }
        })
         let newDate = Jan.concat(Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec)    
         newDate.sort((a,b) => parseInt(a.slice(11)) - parseInt(b.slice(11)))
-        console.log(newDate);
         return newDate    
     }
 
     let newDates = sorting(dates)
 
+    useEffect(() => {
+        items.forEach((item) => {
+            console.log(item);
+            if(item.dates.length > 0) {
+                setShow([...show,{name : item.name,show: true}])
+            }
+        })
+    }, [items])
+
+    console.log(show);
+
     return(
         <div className='details flex-col-cent'>
             <div className='flex-row-around' style={{justifyContent: selectedDay !== '' ? 'flex-end' : 'center', width: '300px'}}>
-                <h3 style={{margin: '20px 0', cursor: 'pointer'}}>{selectedDay !== '' ? format(selectedDay, 'E d MMMM yyyy') : 'All Events'}</h3>
+                <h3 style={{margin: '5px 0 10px', cursor: 'pointer'}}>{selectedDay !== '' ? format(selectedDay, 'E d MMMM yyyy') : 'All Events'}</h3>
                 <div className='plus-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => dispatch(setShowAdd({}))}>+</div>
                 {selectedDay !== '' && <div className='x-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => dispatch(setSelectedDay(''))}>X</div>}
             </div>
@@ -102,8 +111,15 @@ export default function Details() {
                     if(selectedDay !== '') {                        
                         if(item.dates.includes(format(selectedDay, 'E MMM dd yyyy')) || item[format(selectedDay, 'E')]) {                     
                         return (
-                        <div key={'event-all' + index + 1} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
-                            <p>{item.name}</p>
+                        <div key={'event-all' + index + 1} className="event-item">
+                            <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
+                                <p onClick={() => dispatch(setSelectedEvent(item))}>{item.name}</p>    
+                                <div className="edit flex-row-cent" onClick={() => {
+                                    dispatch(setEditEvent(item))
+                                    dispatch(setShowAdd())
+                                }}>E</div>
+                            </div>
+                            
                             <div className="event-info">
                                 <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
                                 `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
@@ -125,22 +141,66 @@ export default function Details() {
                         </div>
                     )}} else {
                         if(item.dates.length > 0) {
-                        return newDates?.map(newDate => {
-                        return item.dates.map((date, indx) => {
-                        if(date === newDate) {
-                        return <div key={'event-dates ' + indx} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
-                            <p>{item.name}</p>
-                            <div className="event-info">
-                                <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
-                                `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
-                                :`${item.time[0]}${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`                                
-                                }</h3>   
-                                    <p>{date}</p>                            
+                            let index = show.findIndex(showItem => showItem.name === item.name)
+                            console.log(show[index]);
+                            if(show[index]?.show) {
+                                return <div key={'event-dates ' + index} className="event-item">
+                                    <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
+                                        <p onClick={() => dispatch(setSelectedEvent(item))}>{item.name}</p>    
+                                        <div className="edit flex-row-cent" onClick={() => {
+                                            dispatch(setEditEvent(item))
+                                            dispatch(setShowAdd())
+                                        }}>E</div>
+                                    </div>
+                                    <div className="event-info">
+                                        <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
+                                        `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
+                                        :`${item.time[0]}${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`                                
+                                        }</h3>   
+                                            <p style={{fontSize: '12px', width:'180px'}}>{item.dates.map(date => date + ' ')}</p>                            
+                                    </div>
+                                    <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginTop: '-20px'}} onClick={() => {
+                                        setShow([...show, show[index].show = false])
+                                    }}>&#8964;</div>
+                                </div>
+                            } else {
+                                return newDates?.map(newDate => {
+                                return item.dates.map((date, indx) => {
+                                if(date === newDate) {
+                                return <div key={'event-dates ' + indx} className="event-item" style={{backgroundColor: 'rgb(111, 194, 221)'}}>
+                                    <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
+                                        <p onClick={() => dispatch(setSelectedEvent(item))}>{item.name}</p>    
+                                        <div className="edit flex-row-cent" onClick={() => {
+                                            dispatch(setEditEvent(item))
+                                            dispatch(setShowAdd())
+                                        }}>E</div>
+                                    </div>
+                                    <div className="event-info">
+                                        <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
+                                        `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
+                                        :`${item.time[0]}${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`                                
+                                        }</h3>   
+                                            <p>{date}</p>                            
+                                    </div>
+                                    {indx === item.dates.length - 1 &&
+                                        <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginBottom: '-10px'}} onClick={() => {
+                                            setShow([...show, show[index].show = true])
+                                        }}>&#8963;</div>
+                                    }
+                                    
+                                </div>   
+                                }})})
+                            }
+                        
+                        } else {
+                        return <div key={'event-days' + index} className="event-item">
+                            <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
+                                <p onClick={() => dispatch(setSelectedEvent(item))}>{item.name}</p>    
+                                <div className="edit flex-row-cent" onClick={() => {
+                                    dispatch(setEditEvent(item))
+                                    dispatch(setShowAdd())
+                                }}>E</div>
                             </div>
-                        </div>   
-                         }})})} else {
-                        return <div key={'event-days' + index} className="event-item" onClick={() => dispatch(setSelectedEvent(item))}>
-                            <p>{item.name}</p>
                             <div className="event-info">
                                 <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
                                 `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  

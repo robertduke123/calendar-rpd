@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Nav from "./components/nav/Nav";
 import Calendar from "./components/calendar/Calendar";
 import Details from "./components/details/Details";
 import Event from "./components/event/Event";
@@ -18,8 +19,6 @@ const eventAlarm = useSelector(state => state.store.eventAlarm)
 const showAdd = useSelector(state => state.store.showAdd)
 const selectedEvent = useSelector(state => state.store.selectedEvent)
 
-// console.log(items);
-
 const alarm = () => {
   let time = new Date()
   items.forEach((item) => {
@@ -28,7 +27,6 @@ const alarm = () => {
       if(date === format(time, 'E MMM dd yyyy')) {
         let eventTime = item.time
         if(item.period === 'PM') eventTime = `${String(parseInt(item.time[0] + item.time[1]) + 12)}:${item.time[3] + item.time[4]}:${item.time[6] + item.time[7]}`
-        // console.log(eventTime, format(time, 'kk:mm:ss'));
         if(eventTime == format(time, 'kk:mm:ss')) {
           dispatch(setEventAlarm(item))          
         }
@@ -57,8 +55,10 @@ useEffect(() => {
     
     <div>
       {eventAlarm && <Alarm/>} 
-      {showAdd && <AddEvent/>}        
-      <div className="app">        
+      {showAdd && <AddEvent/>} 
+      {/* <Nav/>        */}
+      <div className="app">    
+        
         <div className="containers" style={{justifyContent: selectedEvent ? "space-around" : "flex-start"}}>
           <Details/>
            {selectedEvent && <Event/>}   

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setShowAdd, addEvent } from '../../state';
+import { useDispatch, useSelector } from 'react-redux';
+import { setShowAdd, setSelectedEvent,addEvent, setEditEvent, submitEditEvent, deleteEvent } from '../../state';
 import { eachDayOfInterval, endOfMonth, format, startOfToday, parse, add, sub, getDay, isBefore} from 'date-fns'
 
 export default function AddEvent() {
@@ -10,24 +10,27 @@ export default function AddEvent() {
     let days = eachDayOfInterval({start: firstDayCurrentMonth, end: endOfMonth(firstDayCurrentMonth)})
 
     const dispatch = useDispatch()
-    const [change, setChange] = useState(true)
-    const [hour, setHour] = useState(1)
-    const [minute, setMinute] = useState(0)
-    const [period,setPeriod] = useState(true)
-    const [date, setDate] = useState([])
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
+    const editEvent = useSelector(state => state.store.editEvent)
+    const selectedEvent = useSelector(state => state.store.selectedEvent)
 
-    const [sun, setSun] = useState(false)
-    const [mon, setMon] = useState(false)
-    const [tue, setTue] = useState(false)
-    const [wed, setWed] = useState(false)
-    const [thu, setThu] = useState(false)
-    const [fri, setFri] = useState(false)
-    const [sat, setSat] = useState(false)
+    const [change, setChange] = useState(editEvent ? editEvent?.dates.length > 0 ? true : false :true)
+    const [hour, setHour] = useState(editEvent ? parseInt(editEvent.time[0] + editEvent.time[1]) : 6)
+    const [minute, setMinute] = useState(editEvent ? parseInt(editEvent.time[3] + editEvent.time[4]) : 0)
+    const [period,setPeriod] = useState(editEvent ? editEvent.period === 'PM' && false : true)
+    const [dates, setDates] = useState(editEvent ? editEvent.dates : [])
+    const [name, setName] = useState(editEvent ? editEvent.name : '')
+    const [description, setDescription] = useState(editEvent ? editEvent.details : '')
+
+    const [sun, setSun] = useState(editEvent ? editEvent.Sun ? true : false : false)
+    const [mon, setMon] = useState(editEvent ? editEvent.Mon ? true : false : false)
+    const [tue, setTue] = useState(editEvent ? editEvent.Tue ? true : false : false)
+    const [wed, setWed] = useState(editEvent ? editEvent.Wed ? true : false : false)
+    const [thu, setThu] = useState(editEvent ? editEvent.Thu ? true : false : false)
+    const [fri, setFri] = useState(editEvent ? editEvent.Fri ? true : false : false)
+    const [sat, setSat] = useState(editEvent ? editEvent.Sat ? true : false : false)
     
 
-    // console.log(format(date[0], 'yyyy'));
+    console.log(editEvent);
 
     const nextMonth = () => {   
         let firstDayNextMonth = add(firstDayCurrentMonth, {months: 1})
@@ -39,12 +42,46 @@ export default function AddEvent() {
         setCurrentMonth(format(firstDayPrevMonth, 'MMM-yyyy'))
     }   
 
+    const submitAdd = () => {
+        let h = String(hour)
+        if(hour < 10) h = '0' + h
+        let m = String(minute)
+        if(minute < 10) m = '0' + m
+
+        let payload = {
+            name: name,
+            details: description,
+            dates: dates.sort(),
+            time: h + ':' + m + ':00',
+            period: period ? 'AM' : 'PM',
+            Sun: sun,
+            Mon: mon,
+            Tue: tue,
+            Wed: wed,
+            Thu: thu,
+            Fri: fri,
+            Sat: sat  
+        }
+
+        if(editEvent) {
+        dispatch(submitEditEvent(payload))
+        selectedEvent === editEvent && dispatch(setSelectedEvent(payload))
+        dispatch(setEditEvent(false))
+        } else {
+        dispatch(addEvent(payload))
+        } 
+        dispatch(setShowAdd({}))
+    }
+
     return(
-        <div className="add cover">
-            <div className="add-container flex-col-cent">
+        <div className="add cover" style={{alignItems: 'flex-start'}}>
+            <div className="add-container flex-col-cent" style={{height: !change && '500px'}}>
                 <div className="add-head flex-row-cent">
                     <h3>Add Event</h3>   
-                    <div className='x-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => dispatch(setShowAdd({}))}>X</div>
+                    <div className='x-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => {
+                        dispatch(setShowAdd({}))
+                        dispatch(setEditEvent(false))
+                    }}>X</div>
                 </div>
 
                 <div className="add-time flex-row-cent">
@@ -89,34 +126,33 @@ export default function AddEvent() {
                 </div>
 
                 {change ? 
-                <div className='calendar flex-col-cent' style={{width: '285px', height: '295px', margin: '0', color: 'black', fontSize: '14px'}}>
+                <div className='calendar flex-col-cent' style={{width: '285px', height: '275px', margin: '0', color: 'black', fontSize: '14px'}}>
                     <div className="calendar-head" style={{margin: '5px'}}>
                         <h3 style={{margin: '0'}}>{format(firstDayCurrentMonth, 'MMMM yyyy')}</h3>
                         <div className="dir-btn" onClick={prevMonth}>&#10094;</div>            
                         <div className="dir-btn" onClick={nextMonth}>&#10095;</div>
                         <div className='change flex-row-cent' onClick={() => {
                             setChange(!change)
-                            setDate([])
+                            setDates([])
                         }}>C</div>
                     </div>
                     <div className="calendar-store">
+                        <div className="calendar-unit" style={{margin: '0'}}><h1>S</h1></div>
                         <div className="calendar-unit" style={{margin: '0'}}><h1>M</h1></div>
                         <div className="calendar-unit" style={{margin: '0'}}><h1>T</h1></div>
                         <div className="calendar-unit" style={{margin: '0'}}><h1>W</h1></div>
                         <div className="calendar-unit" style={{margin: '0'}}><h1>T</h1></div>
                         <div className="calendar-unit" style={{margin: '0'}}><h1>F</h1></div>
                         <div className="calendar-unit" style={{margin: '0'}}><h1>S</h1></div>
-                        <div className="calendar-unit" style={{margin: '0'}}><h1>S</h1></div>
+                        
 
                         {days.map((day, dayIndx) => {
                                 let firstDay = getDay(day)
 
-                                console.log(format(today, 'MMM dd yyyy') === format(day, 'MMM dd yyyy'));
-
                                 let colorClass =  
-                                format(today, 'MMM dd yyyy') === format(day, 'MMM dd yyyy') && date.includes(format(day, 'E MMM dd yyyy')) ? 'calendar-unit add' :
+                                format(today, 'MMM dd yyyy') === format(day, 'MMM dd yyyy') && dates?.includes(format(day, 'E MMM dd yyyy')) ? 'calendar-unit add' :
                                 format(today, 'MMM dd yyyy') === format(day, 'MMM dd yyyy') ? 'calendar-unit day' :
-                                date.includes(format(day, 'E MMM dd yyyy')) ? 'calendar-unit add'  :'calendar-unit month'
+                                dates?.includes(format(day, 'E MMM dd yyyy')) ? 'calendar-unit add'  :'calendar-unit month'
                                 
                                 
                                 return isBefore(day, today) ?
@@ -147,9 +183,9 @@ export default function AddEvent() {
                                         margin: '0'
                                     }} 
                                     onClick={() => {
-                                        date.includes(format(day, 'E MMM dd yyyy')) ? 
-                                        setDate(date.filter(d => d !== format(day, 'E MMM dd yyyy')))
-                                        : setDate(prevState => [...prevState, format(day, 'E MMM dd yyyy')])
+                                        dates.includes(format(day, 'E MMM dd yyyy')) ? 
+                                        setDates(dates.filter(d => d !== format(day, 'E MMM dd yyyy')))
+                                        : setDates(prevState => [...prevState, format(day, 'E MMM dd yyyy')])
                                     }}>
                                             
                                     <p dateTime={format(day, 'yyyy-mm-dd')}>{format(day, 'd')}</p>
@@ -185,34 +221,23 @@ export default function AddEvent() {
 
                 <div className="add-inputs flex-col-cent">
                     <label htmlFor="name">Name</label>
-                    <input type="text" name='name' onChange={(e) => setName(e.target.value)}/>
+                    <input type="text" name='name' value={name} onChange={(e) => setName(e.target.value)}/>
                     <label htmlFor="description">Description</label>
-                    <textarea name='description' onChange={(e) => setDescription(e.target.value)}></textarea>
+                    <textarea name='description' value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
 
-                <div className="add-btn flex-row-cent" onClick={() => {
-                    let h = String(hour)
-                    if(hour < 10) h = '0' + h
-                    let m = String(minute)
-                    if(minute < 10) m = '0' + m
-
-                    dispatch(addEvent({                        
-                        name: name,
-                        details: description,
-                        // location: 'a shithole in the middle of knowhere',
-                        dates: date.sort(),
-                        time: h + ':' + m + ':00',
-                        period: period ? 'AM' : 'PM',
-                        Sun: sun,
-                        Mon: mon,
-                        Tue: tue,
-                        Wed: wed,
-                        Thu: thu,
-                        Fri: fri,
-                        Sat: sat        
-                    }))
-                    dispatch(setShowAdd({}))
-                }}>Confirm</div>
+                {
+                    editEvent ? 
+                    <div className='flex-row-cent'>
+                        <div className="add-btn flex-row-cent" style={{width: '140px', marginRight: '2.5px'}} onClick={submitAdd}>Confirm</div>   
+                        <div className="add-btn flex-row-cent" style={{width: '140px', marginLeft: '2.5px',backgroundColor: 'red'}} onClick={() => {
+                            dispatch(deleteEvent({}))
+                            dispatch(setShowAdd({}))
+                        }}>Delete</div>
+                    </div> :
+                    <div className="add-btn flex-row-cent" onClick={submitAdd}>Confirm</div>
+                }
+                
 
             </div>
         </div>

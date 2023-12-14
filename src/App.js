@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Nav from "./components/nav/Nav";
 import Calendar from "./components/calendar/Calendar";
 import Details from "./components/details/Details";
 import Event from "./components/event/Event";
@@ -56,7 +55,6 @@ useEffect(() => {
     <div>
       {eventAlarm && <Alarm/>} 
       {showAdd && <AddEvent/>} 
-      {/* <Nav/>        */}
       <div className="app">    
         
         <div className="containers" style={{justifyContent: selectedEvent ? "space-around" : "flex-start"}}>

@@ -117,7 +117,7 @@ export default function Details() {
                                 <div className="edit flex-row-cent" onClick={() => {
                                     dispatch(setEditEvent(item))
                                     dispatch(setShowAdd())
-                                }}>E</div>
+                                }}>edit</div>
                             </div>
                             
                             <div className="event-info">
@@ -150,14 +150,14 @@ export default function Details() {
                                         <div className="edit flex-row-cent" onClick={() => {
                                             dispatch(setEditEvent(item))
                                             dispatch(setShowAdd())
-                                        }}>E</div>
+                                        }}>edit</div>
                                     </div>
                                     <div className="event-info">
                                         <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
                                         `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
                                         :`${item.time[0]}${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`                                
                                         }</h3>   
-                                            <p style={{fontSize: '12px', width:'180px'}}>{item.dates.map(date => date + ' ')}</p>                            
+                                            <p style={{fontSize: '12px', width:'260px'}}>{item.dates.map(date => date + ' ')}</p>                            
                                     </div>
                                     <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginTop: '-20px'}} onClick={() => {
                                         setShow([...show, show[index].show = false])
@@ -173,7 +173,7 @@ export default function Details() {
                                         <div className="edit flex-row-cent" onClick={() => {
                                             dispatch(setEditEvent(item))
                                             dispatch(setShowAdd())
-                                        }}>E</div>
+                                        }}>edit</div>
                                     </div>
                                     <div className="event-info">
                                         <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?
@@ -186,8 +186,7 @@ export default function Details() {
                                         <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginBottom: '-10px'}} onClick={() => {
                                             setShow([...show, show[index].show = true])
                                         }}>&#8963;</div>
-                                    }
-                                    
+                                    }                                    
                                 </div>   
                                 }})})
                             }
@@ -199,7 +198,7 @@ export default function Details() {
                                 <div className="edit flex-row-cent" onClick={() => {
                                     dispatch(setEditEvent(item))
                                     dispatch(setShowAdd())
-                                }}>E</div>
+                                }}>edit</div>
                             </div>
                             <div className="event-info">
                                 <h3>{parseInt(item.time[0] + item.time[1]) < 10 ?

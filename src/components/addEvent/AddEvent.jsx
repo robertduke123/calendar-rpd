@@ -134,7 +134,7 @@ export default function AddEvent() {
                         <div className='change flex-row-cent' onClick={() => {
                             setChange(!change)
                             setDates([])
-                        }}>C</div>
+                        }}>change</div>
                     </div>
                     <div className="calendar-store">
                         <div className="calendar-unit" style={{margin: '0'}}><h1>S</h1></div>
@@ -204,7 +204,7 @@ export default function AddEvent() {
                             setThu(false)
                             setFri(false)
                             setSat(false)
-                        }}>C</div>
+                        }}>change</div>
                     </div>
                     <div className='flex-row-around' style={{margin: '25px 0'}}>
                         <div className={sun ? 'add-day-on flex-row-cent' : "add-day-btn flex-row-cent"} onClick={() => setSun(!sun)}>S</div>

@@ -5,6 +5,7 @@ import Event from "./components/event/Event";
 import FullYear from "./components/fullYear/FullYear";
 import Alarm from "./components/alarm/Alarm";
 import AddEvent from "./components/addEvent/AddEvent";
+import SignIn from "./components/signIn/SignIn";
 
 import { setEventAlarm } from "./state";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,6 +57,9 @@ useEffect(() => {
       {eventAlarm && <Alarm/>} 
       {showAdd && <AddEvent/>} 
       <div className="app">    
+        <div>
+
+        </div>
         
         <div className="containers" style={{justifyContent: selectedEvent ? "space-around" : "flex-start"}}>
           <Details/>

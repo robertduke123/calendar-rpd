@@ -4,6 +4,7 @@
 @import url(fullYear.css);
 @import url(alarm.css);
 @import url(addEvent.css);
+@import url(signIn.css);
 
 :root{
   --background: #E6E6FA;
@@ -84,6 +85,13 @@ body{
   align-items: center;
 }
 
+.flex-col-around {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .flex-row-cent {
   display: flex;
   justify-content: center;
@@ -96,9 +104,9 @@ body{
   align-items: center;
 }
 
-.flex-col-around {
+.flex-row-between {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
+

@@ -88,14 +88,12 @@ export default function Details() {
 
     useEffect(() => {
         items.forEach((item) => {
-            console.log(item);
             if(item.dates.length > 0) {
                 setShow([...show,{name : item.name,show: true}])
             }
         })
     }, [items])
 
-    console.log(show);
 
     return(
         <div className='details flex-col-cent'>
@@ -142,7 +140,6 @@ export default function Details() {
                     )}} else {
                         if(item.dates.length > 0) {
                             let index = show.findIndex(showItem => showItem.name === item.name)
-                            console.log(show[index]);
                             if(show[index]?.show) {
                                 return <div key={'event-dates ' + index} className="event-item">
                                     <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>

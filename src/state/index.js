@@ -2,9 +2,12 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     user: {
+        email: 'r',
+        password: 'r',
         name: 'rob',
         age: '27'
     },
+    userInput: '',
     selectedDay: '',
     showAdd: false,
     items: [
@@ -49,6 +52,9 @@ export const storeSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload
         },
+        ShowUserInput: (state, action) => {
+            state.userInput = action.payload
+        },
         setSelectedDay: (state, action) => {
             state.selectedDay = action.payload
         },
@@ -85,6 +91,7 @@ export const storeSlice = createSlice({
 
 export const {
     setUser,
+    ShowUserInput,
     setSelectedDay,
     setShowAdd,
     setTime,

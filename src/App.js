@@ -6,14 +6,17 @@ import FullYear from "./components/fullYear/FullYear";
 import Alarm from "./components/alarm/Alarm";
 import AddEvent from "./components/addEvent/AddEvent";
 import SignIn from "./components/signIn/SignIn";
+import Register from "./components/register/Register";
 
-import { setEventAlarm } from "./state";
+import { setEventAlarm, ShowUserInput } from "./state";
 import { useDispatch, useSelector } from "react-redux";
 import { format } from "date-fns";
+// import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 
 function App() {
 const dispatch = useDispatch()
+const userInput = useSelector(state => state.store.userInput)
 const items = useSelector(state => state.store.items)
 const eventAlarm = useSelector(state => state.store.eventAlarm)
 const showAdd = useSelector(state => state.store.showAdd)
@@ -52,26 +55,27 @@ useEffect(() => {
 
 
   return (
-    
     <div>
       {eventAlarm && <Alarm/>} 
-      {showAdd && <AddEvent/>} 
-      <div className="app">    
-        <div>
-
-        </div>
+      {showAdd && <AddEvent/>}
+      {userInput === 'sign' && <SignIn/>}
+      {userInput === 'register' && <Register/>}
         
-        <div className="containers" style={{justifyContent: selectedEvent ? "space-around" : "flex-start"}}>
-          <Details/>
-           {selectedEvent && <Event/>}   
-        </div>
-        <div className="containers">
-          <Calendar/>
-          <FullYear/>
-        </div>      
+        <div className="app">   
+          <div className="containers" style={{justifyContent: selectedEvent ? "space-around" : "flex-start"}}>
+            <Details/>
+            {selectedEvent && <Event/>}   
+          </div>
+          <div className="containers">
+            <div style={{width: '80%', margin: '-20px 0 10px', display: 'flex', justifyContent: 'flex-end' }}>
+              <div className="reg-btn flex-row-cent" onClick={() => dispatch(ShowUserInput('register'))}>Register</div>
+              <div className="sign-btn flex-row-cent" onClick={() => dispatch(ShowUserInput('sign'))}>SignIn</div>
+            </div>
+            <Calendar/>
+            <FullYear/>
+          </div>      
+        </div>       
       </div>
-    </div>
-    
   );
 }
 

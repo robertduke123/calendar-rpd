@@ -1,8 +1,8 @@
-.sign-btn,
-.reg-btn{
+.sign-btn{
     cursor: pointer;
+    margin-right: -350px;
     width: 80px;
-    height: 30px;
+    height: 40px;
     border-radius: 8px;
 }
 
@@ -11,21 +11,21 @@
     color: lightblue;
 }
 
-.reg-btn{
+/* .reg-btn{
     margin-right: 5px;
     border: 2px solid lightgreen;
     color: lightgreen;
-}
+} */
 
 .sign-btn:hover{
     background-color: lightblue;
     color: white;
 }
 
-.reg-btn:hover {
+/* .reg-btn:hover {
     background-color: lightgreen;
     color: white;
-}
+} */
 
 .sign-in,
 .register{

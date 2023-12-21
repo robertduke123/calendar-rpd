@@ -49,9 +49,9 @@ return(
                         items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ||
                         items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ? 'calendar-unit select-ev' :
                         
-                        isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ? 'calendar-unit select-day' :
+                        isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-day' :
                         
-                        !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ? 'calendar-unit select-month' :
+                        !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-month' :
                         
                         isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit day' :
                         

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShowAdd, setSelectedEvent,addEvent, setEditEvent, submitEditEvent, deleteEvent } from '../../state';
+import { setShowAdd, setSelectedEvent, addEvent, setEditEvent, submitEditEvent, deleteEvent } from '../../state';
 import { eachDayOfInterval, endOfMonth, format, startOfToday, parse, add, sub, getDay, isBefore} from 'date-fns'
 
 export default function AddEvent() {
@@ -10,6 +10,7 @@ export default function AddEvent() {
     let days = eachDayOfInterval({start: firstDayCurrentMonth, end: endOfMonth(firstDayCurrentMonth)})
 
     const dispatch = useDispatch()
+    const user = useSelector(state => state.store.user)
     const editEvent = useSelector(state => state.store.editEvent)
     const selectedEvent = useSelector(state => state.store.selectedEvent)
 
@@ -42,7 +43,7 @@ export default function AddEvent() {
         setCurrentMonth(format(firstDayPrevMonth, 'MMM-yyyy'))
     }   
 
-    const submitAdd = () => {
+    const submitAdd = async () => {
         let h = String(hour)
         if(hour < 10) h = '0' + h
         let m = String(minute)
@@ -69,10 +70,33 @@ export default function AddEvent() {
         dispatch(setEditEvent(false))
         } else {
         dispatch(addEvent(payload))
+        
+        await fetch('http://localhost:4000/add', {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: user.email, 
+                name: payload.name, 
+                details: payload.details, 
+                time: payload.time, 
+                dates: payload.dates, 
+                period: payload.period, 
+                Sun: payload.Sun, 
+                Mon: payload.Mon, 
+                Tue: payload.Tue, 
+                Wed: payload.Wed, 
+                Thu: payload.Thu, 
+                Fri: payload.Fri, 
+                Sat: payload.Sat
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log)
         } 
-        dispatch(setShowAdd({}))
+        dispatch(setShowAdd(false))
     }
-
+//  Christmas Day 
+// Celebrating Christmas with the fam.
     return(
         <div className="add cover" style={{alignItems: 'flex-start'}}>
             <div className="add-container flex-col-cent" style={{height: !change && '500px'}}>

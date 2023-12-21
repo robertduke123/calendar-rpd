@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShowUserInput } from '../../state';
+import { setUser, showUserInput } from '../../state';
 import { useDispatch } from 'react-redux';
 
 export default function Register() {
@@ -11,13 +11,39 @@ export default function Register() {
     const [password, setPassword] = useState('')
     const [confPassword, setConfPassword] = useState('')
 
+    const handleSubmit = () => {
+
+    if(password === confPassword) {
+        fetch(
+        // 'http://localhost:3000/register'
+        'https://e-store-api-0tkm.onrender.com/register'
+        , {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                firstName: first, 
+                lastName: last,
+                email: email,
+                password: password
+            })
+            })
+            .then(response => response.json())
+            .then(data => {
+            if(data.id) {
+                dispatch(setUser(data))
+                dispatch(showUserInput(''))      
+            }          
+            })
+    }
+    }
+
     return(
         <div className='register cover' style={{justifyContent: 'flex-start'}}>
             <div className="register-container flex-col-around">
                 <div className="add-head flex-row-cent">
                     <h3>Register</h3>   
                     <div className='x-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => {
-                        dispatch(ShowUserInput(''))
+                        dispatch(showUserInput(''))
                     }}>X</div>
                 </div>
 
@@ -46,9 +72,9 @@ export default function Register() {
                     <input type="password" name="confpassword" id='confpassword' onChange={(e) => setConfPassword(e.target.value)}/>    
                 </div>   
 
-                <div className="add-btn flex-row-cent" style={{color: 'white'}}>Confirm</div>
+                <div className="add-btn flex-row-cent" style={{color: 'white'}} onClick={handleSubmit}>Confirm</div>
                 
-                <p className='sign-switch' onClick={() => dispatch(ShowUserInput('sign'))}>sign in</p>  
+                <p className='sign-switch' onClick={() => dispatch(showUserInput('sign'))}>sign in</p>  
             </div>
         </div>
     )

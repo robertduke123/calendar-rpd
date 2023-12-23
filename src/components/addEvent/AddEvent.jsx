@@ -68,9 +68,32 @@ export default function AddEvent() {
         dispatch(submitEditEvent(payload))
         selectedEvent === editEvent && dispatch(setSelectedEvent(payload))
         dispatch(setEditEvent(false))
-        } else {
-        dispatch(addEvent(payload))
+
+        await fetch('http://localhost:4000/edit', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: user.email,
+                oldName: editEvent.name, 
+                newName: payload.name, 
+                details: payload.details, 
+                time: payload.time, 
+                dates: payload.dates, 
+                period: payload.period, 
+                Sun: payload.Sun, 
+                Mon: payload.Mon, 
+                Tue: payload.Tue, 
+                Wed: payload.Wed, 
+                Thu: payload.Thu, 
+                Fri: payload.Fri, 
+                Sat: payload.Sat
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log)
         
+        } else {
+        dispatch(addEvent(payload))        
         await fetch('http://localhost:4000/add', {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
@@ -94,9 +117,27 @@ export default function AddEvent() {
         .then(data => console.log)
         } 
         dispatch(setShowAdd(false))
+        dispatch(setEditEvent(false))
     }
-//  Christmas Day 
-// Celebrating Christmas with the fam.
+
+    const submitDel = async() => {
+        dispatch(deleteEvent({}))
+
+        await fetch('http://localhost:4000/del', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: user.email, 
+                name: editEvent.name
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log)
+
+        dispatch(setShowAdd(false))
+    }
+
+
     return(
         <div className="add cover" style={{alignItems: 'flex-start'}}>
             <div className="add-container flex-col-cent" style={{height: !change && '500px'}}>
@@ -254,10 +295,7 @@ export default function AddEvent() {
                     editEvent ? 
                     <div className='flex-row-cent'>
                         <div className="add-btn flex-row-cent" style={{width: '140px', marginRight: '2.5px'}} onClick={submitAdd}>Confirm</div>   
-                        <div className="add-btn flex-row-cent" style={{width: '140px', marginLeft: '2.5px',backgroundColor: 'red'}} onClick={() => {
-                            dispatch(deleteEvent({}))
-                            dispatch(setShowAdd({}))
-                        }}>Delete</div>
+                        <div className="add-btn flex-row-cent" style={{width: '140px', marginLeft: '2.5px',backgroundColor: 'red'}} onClick={submitDel}>Delete</div>
                     </div> :
                     <div className="add-btn flex-row-cent" onClick={submitAdd}>Confirm</div>
                 }

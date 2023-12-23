@@ -139,7 +139,7 @@ export default function Details() {
                         </div>
                     )}} else {
                         if(item.dates.length > 0) {
-                            let index = show.findIndex(showItem => showItem.name === item.name)
+                            let index = show.findIndex(showItem => showItem.name === item.name)                            
                             if(show[index]?.show) {
                                 return <div key={'event-dates ' + index} className="event-item">
                                     <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
@@ -156,13 +156,15 @@ export default function Details() {
                                         }</h3>   
                                             <p style={{fontSize: '12px', width:'260px'}}>{item.dates.map(date => date + ' ')}</p>                            
                                     </div>
-                                    <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginTop: '-20px'}} onClick={() => {
+                                    {/* {item.dates.length > 1 && */}
+                                        <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginTop: '-20px'}} onClick={() => {
                                         setShow([...show, show[index].show = false])
                                     }}>&#8964;</div>
+                                    {/* } */}
                                 </div>
                             } else {
-                                return newDates?.map(newDate => {
-                                return item.dates.map((date, indx) => {
+                                return newDates?.map((newDate, indx) => {
+                                return item.dates.map((date) => {
                                 if(date === newDate) {
                                 return <div key={'event-dates ' + indx} className="event-item" style={{backgroundColor: 'rgb(111, 194, 221)'}}>
                                     <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
@@ -179,7 +181,7 @@ export default function Details() {
                                         }</h3>   
                                             <p>{date}</p>                            
                                     </div>
-                                    {indx === item.dates.length - 1 &&
+                                    {indx + 1 === item.dates.length &&
                                         <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginBottom: '-10px'}} onClick={() => {
                                             setShow([...show, show[index].show = true])
                                         }}>&#8963;</div>

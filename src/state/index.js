@@ -60,7 +60,7 @@ export const storeSlice = createSlice({
             state.time = action.payload
         },
         addEvent: (state, action) => {
-            action.payload.dates.length > 0 ?
+            action.payload.dates?.length > 0 ?
             state.items.push(action.payload) :
             state.items.unshift(action.payload)
         },

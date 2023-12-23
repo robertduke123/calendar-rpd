@@ -45,12 +45,11 @@ export default function SignIn() {
                     email: data[0].email
                 })) 
                 data[0].event_name.forEach((item, index) => {
-                    // console.log(data[0].event_dates[index]);
                     let dates
-                    console.log(data[0].event_dates[index]);
-                    // data[0].event_dates[index] === "" ? dates = [] : 
-                    // data[0].event_dates[index].length <= 16 ? dates = data[0].event_dates[index] : 
-                    // dates = data[0].event_dates[index].split(', ')           
+                    console.log(data[0].event_dates[index].length);
+                    data[0].event_dates[index] === "" ? dates = [] : 
+                    data[0].event_dates[index].length <= 15 ? dates = [data[0].event_dates[index]] : 
+                    dates = data[0].event_dates[index].split(', ')       
                     
                     dispatch(addEvent({
                         name: item,

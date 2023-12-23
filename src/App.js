@@ -89,10 +89,10 @@ useEffect(() => {
                 })) 
                 data[0].event_name.forEach((item, index) => {
                     let dates
-                    console.log(data[0].event_dates[index]);
+                    console.log(data[0].event_dates[index].length);
                     data[0].event_dates[index] === "" ? dates = [] : 
-                    data[0].event_dates[index].length <= 156 ? dates = data[0].event_dates[index] : 
-                    dates = data[0].event_dates[index].split(', ')            
+                    data[0].event_dates[index].length <= 15 ? dates = [data[0].event_dates[index]] : 
+                    dates = data[0].event_dates[index].split(', ') 
                     
                     dispatch(addEvent({
                         name: item,
@@ -116,8 +116,23 @@ useEffect(() => {
                 .catch(err => console.log(err))
 }, [])
 
+const handleSingOut = () => {
+   fetch('http://localhost:4000/logout'
+        , {
+          method: 'POST',
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            email: user.email
+          })          
+        })
+        .then(response => response.json())
+        .then(data => console.log)
+  dispatch(setUser({}))
+  dispatch(showUserInput('sign'))
+}
 
-console.log(user);
+
+console.log(items);
 
   return (
     <div>
@@ -133,7 +148,7 @@ console.log(user);
             {selectedEvent && <Event/>}   
           </div>
           <div className="containers">
-              <div className="sign-btn flex-row-cent" onClick={() => dispatch(showUserInput('sign'))}>Sign Out</div>
+              <div className="sign-btn flex-row-cent" onClick={handleSingOut}>Sign Out</div>
             <Calendar/>
             <FullYear/>
           </div>      

@@ -19,6 +19,7 @@
 body{
   font-family: sans-serif;
   background-color: var(--background);
+  /* min-height: 100vh; */
 }
 
 .cover{
@@ -34,7 +35,8 @@ body{
 
 .app {
   width: 70%;
-  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
   margin: auto;
   display: flex;
   justify-content: center;
@@ -42,6 +44,7 @@ body{
 
 .containers{
   width: 49.5%;
+  min-height: 650px;
   margin: 10px 0;
   padding-top: 50px;
   background-color: white;
@@ -110,3 +113,13 @@ body{
   align-items: center;
 }
 
+
+@media only screen and (max-width: 1125px) {
+  .app{
+    width: 830px;
+
+    & h2{
+      margin: 0 20px 0 -160px;
+    }
+  }
+}

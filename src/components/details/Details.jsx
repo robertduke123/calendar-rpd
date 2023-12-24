@@ -156,11 +156,11 @@ export default function Details() {
                                         }</h3>   
                                             <p style={{fontSize: '12px', width:'260px'}}>{item.dates.map(date => date + ' ')}</p>                            
                                     </div>
-                                    {/* {item.dates.length > 1 && */}
+                                    {item.dates.length > 1 &&
                                         <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginTop: '-20px'}} onClick={() => {
                                         setShow([...show, show[index].show = false])
                                     }}>&#8964;</div>
-                                    {/* } */}
+                                    }
                                 </div>
                             } else {
                                 return newDates?.map((newDate, indx) => {

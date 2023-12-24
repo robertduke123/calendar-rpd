@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Calendar from "./components/calendar/Calendar";
 import Details from "./components/details/Details";
 import Event from "./components/event/Event";
@@ -22,6 +22,26 @@ const items = useSelector(state => state.store.items)
 const eventAlarm = useSelector(state => state.store.eventAlarm)
 const showAdd = useSelector(state => state.store.showAdd)
 const selectedEvent = useSelector(state => state.store.selectedEvent)
+const [width, setWidth] = useState(window.innerWidth)
+const [minWidth, setMinWidth] = useState(false)
+
+useEffect(() => {
+            function handleResize() {
+                setWidth(window.innerWidth)
+            }
+
+            window.addEventListener('resize', handleResize)
+
+            handleResize()
+            return () => {
+            window.removeEventListener('resize', handleResize)
+            console.log(width);
+            width < 1250 ? setMinWidth(true) : setMinWidth(false)
+          }
+})
+
+
+
 
 const alarm = () => {
   let time = new Date()
@@ -89,7 +109,6 @@ useEffect(() => {
                 })) 
                 data[0].event_name.forEach((item, index) => {
                     let dates
-                    console.log(data[0].event_dates[index].length);
                     data[0].event_dates[index] === "" ? dates = [] : 
                     data[0].event_dates[index].length <= 15 ? dates = [data[0].event_dates[index]] : 
                     dates = data[0].event_dates[index].split(', ') 
@@ -131,9 +150,6 @@ const handleSingOut = () => {
   dispatch(showUserInput('sign'))
 }
 
-
-console.log(items);
-
   return (
     <div>
       {eventAlarm && <Alarm/>} 
@@ -143,15 +159,21 @@ console.log(items);
         
         <div className="app">   
           <div className="containers" style={{justifyContent: selectedEvent ? "space-around" : "flex-start"}}>
+            <div style={{display: minWidth && "flex"}}>
             {user.id && <h2 style={{marginTop: '-25px', fontSize: '21px'}}>{`${user.first[0].toUpperCase() + user.first.substring(1)} ${user.last[0].toUpperCase() + user.last.substring(1)}'s Calendar`}</h2>}
+            {minWidth && <div className="sign-btn flex-row-cent" onClick={handleSingOut}>Sign Out</div>}
+            </div>
             <Details/>
             {selectedEvent && <Event/>}   
           </div>
+          {!minWidth &&
           <div className="containers">
-              <div className="sign-btn flex-row-cent" onClick={handleSingOut}>Sign Out</div>
+              {!minWidth && <div className="sign-btn flex-row-cent" onClick={handleSingOut}>Sign Out</div>}
             <Calendar/>
             <FullYear/>
-          </div>      
+          </div>
+          }
+                
         </div>       
       </div>
   );

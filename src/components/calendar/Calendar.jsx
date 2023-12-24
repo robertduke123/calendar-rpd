@@ -44,14 +44,15 @@ return(
 
             {
                 days.map((day, dayIndx) => {
+                    // console.log(isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))))
                     let colorClass = 
                         isBefore(day, today) ? 'calendar-unit before' :
-                        items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ||
-                        items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(day), parseISO(selectedDay)) ? 'calendar-unit select-ev' :
+                        selectedDay !== '' && items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ||
+                        selectedDay !== '' && items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ? 'calendar-unit select-ev' :
                         
-                        isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-day' :
+                        selectedDay !== '' && isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ? 'calendar-unit select-day' :
                         
-                        !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(day, selectedDay) ? 'calendar-unit select-month' :
+                        selectedDay !== '' && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ? 'calendar-unit select-month' :
                         
                         isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit day' :
                         

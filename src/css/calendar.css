@@ -58,7 +58,8 @@
 }
 
 .month:hover,
-.day:hover {
+.day:hover,
+.ev:hover {
     background-color: rgb(233, 233, 233);
 }
 
@@ -67,12 +68,12 @@
     color: black
 }
 
-.select-month,
-.month:hover {
+.select-month{
     cursor: pointer;
     background-color: rgb(43, 126, 189);
     color: white;
 }
+
 
 .day {
     cursor: pointer;

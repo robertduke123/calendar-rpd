@@ -3,38 +3,10 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
     user: {},
     userInput: 'sign',
+    switch: false,
     selectedDay: '',
     showAdd: false,
-    items: [
-        // {
-        //     name: 'Staff Part',
-        //     details: 'staff party with the fuel',
-        //     dates: [],
-        //     time: '06:12:10',
-        //     period: 'PM',
-        //     Sun: true,
-        //     Mon: true,
-        //     Tue: true,
-        //     Wed: true,
-        //     Thu: true,
-        //     Fri: true,
-        //     Sat: true
-        // },
-        // {
-        //     name: 'You have a meeting',
-        //     details: 'meeting with the new ceo',
-        //     dates: ['Mon Dec 18 2023', 'Mon Dec 25 2023', 'Sun Jan 07 2024'],
-        //     time: '06:44:30',
-        //     period: 'PM',
-        //     Sun: false,
-        //     Mon: false,
-        //     Tue: false,
-        //     Wed: false,
-        //     Thu: false,
-        //     Fri: false,
-        //     Sat: false
-        // }     
-    ],
+    items: [],
     selectedEvent: false,
     editEvent: false,
     eventAlarm: false
@@ -49,6 +21,9 @@ export const storeSlice = createSlice({
         },
         showUserInput: (state, action) => {
             state.userInput = action.payload
+        },
+        setSwitch: (state, action) => {
+            state.switch = action.payload
         },
         setSelectedDay: (state, action) => {
             state.selectedDay = action.payload
@@ -87,6 +62,7 @@ export const storeSlice = createSlice({
 export const {
     setUser,
     showUserInput,
+    setSwitch,
     setSelectedDay,
     setShowAdd,
     setTime,

@@ -12,7 +12,7 @@ export default function Details() {
 
     let dates =[]
     items.forEach(item => {
-        item.dates.forEach(date => dates.push(date))
+        item?.dates?.forEach(date => dates.push(date))
     })
 
     function sorting(dates){
@@ -88,7 +88,7 @@ export default function Details() {
 
     useEffect(() => {
         items.forEach((item) => {
-            if(item.dates.length > 0) {
+            if(item.dates?.length > 0) {
                 setShow([...show,{name : item.name,show: true}])
             }
         })
@@ -138,7 +138,7 @@ export default function Details() {
                             </div>
                         </div>
                     )}} else {
-                        if(item.dates.length > 0) {
+                        if(item.dates?.length > 0) {
                             let index = show.findIndex(showItem => showItem.name === item.name)                            
                             if(show[index]?.show) {
                                 return <div key={'event-dates ' + index} className="event-item">

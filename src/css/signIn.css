@@ -1,31 +1,32 @@
-.sign-btn{
-    cursor: pointer;
-    margin: -20px -250px 0 0;
-    width: 80px;
-    height: 20px;
-    border-radius: 8px;
-}
 
 .sign-btn{
+    cursor: pointer;
+    width: 80px;
+    height: 20px;
+    margin: -20px -250px 0 0;
     border: 2px solid lightblue;
+    border-radius: 8px;
     color: lightblue;
 }
 
-/* .reg-btn{
-    margin-right: 5px;
+.switch-btn{
+    cursor: pointer;
+    width: 80px;
+    height: 20px;
     border: 2px solid lightgreen;
+    border-radius: 8px;
     color: lightgreen;
-} */
+}
 
 .sign-btn:hover{
     background-color: lightblue;
     color: white;
 }
 
-/* .reg-btn:hover {
+.switch-btn:hover {
     background-color: lightgreen;
     color: white;
-} */
+}
 
 .sign-in,
 .register{

@@ -18,7 +18,7 @@ export default function AddEvent() {
     const [hour, setHour] = useState(editEvent ? parseInt(editEvent.time[0] + editEvent.time[1]) : 6)
     const [minute, setMinute] = useState(editEvent ? parseInt(editEvent.time[3] + editEvent.time[4]) : 0)
     const [period,setPeriod] = useState(editEvent ? editEvent.period === 'PM' && false : true)
-    const [dates, setDates] = useState(editEvent ? editEvent.dates : [])
+    const [dates, setDates] = useState(editEvent ? [...editEvent.dates] : [])
     const [name, setName] = useState(editEvent ? editEvent.name : '')
     const [description, setDescription] = useState(editEvent ? editEvent.details : '')
 
@@ -52,7 +52,7 @@ export default function AddEvent() {
         let payload = {
             name: name,
             details: description,
-            dates: dates.sort(),
+            dates: dates?.sort(),
             time: h + ':' + m + ':00',
             period: period ? 'AM' : 'PM',
             Sun: sun,

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, startOfToday, isToday, isEqual, parse, add, sub, getDay, startOfWeek, isBefore, parseISO } from 'date-fns'
-import { setSelectedDay } from './../../state';
+import { setSelectedDay, setSwitch } from './../../state';
 
 
 export default function Calendar() {
@@ -47,8 +47,8 @@ return(
                     // console.log(isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))))
                     let colorClass = 
                         isBefore(day, today) ? 'calendar-unit before' :
-                        selectedDay !== '' && items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ||
-                        selectedDay !== '' && items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ? 'calendar-unit select-ev' :
+                        selectedDay !== '' && items?.map((item) => item.dates?.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ||
+                        selectedDay !== '' && items?.map((item) => item[format(day, 'E')])?.includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ? 'calendar-unit select-ev' :
                         
                         selectedDay !== '' && isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ? 'calendar-unit select-day' :
                         
@@ -56,8 +56,8 @@ return(
                         
                         isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit day' :
                         
-                        items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) ||
-                        items.map((item) => item[format(day, 'E')]).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit ev' :
+                        items.map((item) => item.dates?.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) ||
+                        items.map((item) => item[format(day, 'E')])?.includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit ev' :
                         
                         !isToday(day) && isSameMonth(day, firstDayCurrentMonth) ? 'calendar-unit month' :
                         
@@ -89,7 +89,10 @@ return(
                             dayIndx === 0 && firstDay === 5 ? '6' :
                             dayIndx === 0 && firstDay === 6 && '7'
                         }} 
-                        onClick={() => dispatch(setSelectedDay(day))}
+                        onClick={() => {
+                            dispatch(setSelectedDay(day))
+                            dispatch(setSwitch(false))
+                        }}
                     >
                         <p dateTime={format(day, 'yyyy-mm-dd')}>{format(day, 'd')}</p>
                     </div> 

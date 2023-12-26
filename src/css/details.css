@@ -69,3 +69,10 @@
     color: lightblue; 
     font-size: 14px;
 }
+
+@media only screen and (max-width: 1250px) {
+    .event-info h3:nth-child(1){
+        width: 80px;
+        font-size: 14px;
+    }
+}

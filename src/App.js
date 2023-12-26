@@ -8,16 +8,16 @@ import AddEvent from "./components/addEvent/AddEvent";
 import SignIn from "./components/signIn/SignIn";
 import Register from "./components/register/Register";
 
-import { setUser, addEvent, setEventAlarm, showUserInput } from "./state";
+import { setUser, addEvent, setEventAlarm, showUserInput, setSwitch, setEditEvent, deleteEvent, submitEditEvent } from "./state";
 import { useDispatch, useSelector } from "react-redux";
 import { format } from "date-fns";
-// import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 
 function App() {
 const dispatch = useDispatch()
 const userInput = useSelector(state => state.store.userInput)
 const user = useSelector(state => state.store.user)
+const Switch = useSelector(state => state.store.switch)
 const items = useSelector(state => state.store.items)
 const eventAlarm = useSelector(state => state.store.eventAlarm)
 const showAdd = useSelector(state => state.store.showAdd)
@@ -35,7 +35,6 @@ useEffect(() => {
             handleResize()
             return () => {
             window.removeEventListener('resize', handleResize)
-            console.log(width);
             width < 1250 ? setMinWidth(true) : setMinWidth(false)
           }
 })
@@ -43,26 +42,71 @@ useEffect(() => {
 
 
 
-const alarm = () => {
+const alarm = async () => {
   let time = new Date()
-  items.forEach((item) => {
-    item.dates.length > 0 ?
-    item.dates.forEach((date) => {
-      if(date === format(time, 'E MMM dd yyyy')) {
-        let eventTime = item.time
+  items.forEach((item) => { 
+    let eventTime = item.time
         if(item.period === 'PM') eventTime = `${String(parseInt(item.time[0] + item.time[1]) + 12)}:${item.time[3] + item.time[4]}:${item.time[6] + item.time[7]}`
+    item.dates?.length > 0 ?
+    item.dates.forEach((date, index) => {
+      if(date === format(time, 'E MMM dd yyyy')) {        
         if(eventTime == format(time, 'kk:mm:ss')) {
-          dispatch(setEventAlarm(item))          
+          dispatch(setEditEvent(item))
+          dispatch(setEventAlarm(item))    
+          let editDates = [...item.dates]
+          editDates.splice(index, 1)
+          if (editDates?.length > 0) {
+          dispatch(submitEditEvent({
+            ...item,
+            dates: editDates
+          })) 
+        fetch('http://localhost:4000/edit', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: user.email,
+                oldName: item.name, 
+                newName: item.name, 
+                details: item.details, 
+                time: item.time, 
+                dates: editDates, 
+                period: item.period, 
+                Sun: item.Sun, 
+                Mon: item.Mon, 
+                Tue: item.Tue, 
+                Wed: item.Wed, 
+                Thu: item.Thu, 
+                Fri: item.Fri, 
+                Sat: item.Sat
+            })
+        })
+        .then(response => response.json())
+        .then(data => dispatch(setEditEvent(false)))
+      } else {
+          dispatch(setEditEvent(item))
+          dispatch(deleteEvent({}))
+
+          fetch('http://localhost:4000/del', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: user.email, 
+                name: item.name
+            })
+        })
+        .then(response => response.json())
+        .then(data => dispatch(setEditEvent(false)))
+        }
         }
       }
     }):
-    item.Sun && format(time, 'E') && item.time == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
-    item.Mon && format(time, 'E') && item.time == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
-    item.Tue && format(time, 'E') && item.time == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
-    item.Wed && format(time, 'E') && item.time == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
-    item.Thu && format(time, 'E') && item.time == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
-    item.Fri && format(time, 'E') && item.time == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
-    item.Sat && format(time, 'E') && item.time == format(time, 'kk:mm:ss') && dispatch(setEventAlarm(item))
+    item.Sun && format(time, 'E') && eventTime == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
+    item.Mon && format(time, 'E') && eventTime == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
+    item.Tue && format(time, 'E') && eventTime == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
+    item.Wed && format(time, 'E') && eventTime == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
+    item.Thu && format(time, 'E') && eventTime == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
+    item.Fri && format(time, 'E') && eventTime == format(time, 'kk:mm:ss') ? dispatch(setEventAlarm(item)) :
+    item.Sat && format(time, 'E') && eventTime == format(time, 'kk:mm:ss') && dispatch(setEventAlarm(item))
   })
 }
 
@@ -70,10 +114,17 @@ useEffect(() => {
   setInterval(() => {
     alarm()
   }, 1000)
-}, [])
+}, [items, ])
 
 useEffect(() => {
   const refresh = localStorage.getItem('refreshToken')
+
+  if(items?.length > 0) {
+    items.forEach(item => {
+      dispatch(setEditEvent(item))
+      dispatch(deleteEvent({}))
+    })
+  }
 
   fetch(
           'http://localhost:4000/token'
@@ -133,6 +184,7 @@ useEffect(() => {
                 }
               })
                 .catch(err => console.log(err))
+
 }, [])
 
 const handleSingOut = () => {
@@ -158,22 +210,31 @@ const handleSingOut = () => {
       {userInput === 'register' && <Register/>}
         
         <div className="app">   
-          <div className="containers" style={{justifyContent: selectedEvent ? "space-around" : "flex-start"}}>
-            <div style={{display: minWidth && "flex"}}>
-            {user.id && <h2 style={{marginTop: '-25px', fontSize: '21px'}}>{`${user.first[0].toUpperCase() + user.first.substring(1)} ${user.last[0].toUpperCase() + user.last.substring(1)}'s Calendar`}</h2>}
-            {minWidth && <div className="sign-btn flex-row-cent" onClick={handleSingOut}>Sign Out</div>}
+          {(!minWidth || !Switch) && <div className="containers" style={{justifyContent: !selectedEvent || minWidth ? "flex-start" :  "space-around"}}>
+            {user.id && <h2 style={{marginTop: '-25px', marginLeft:  minWidth && '40px', fontSize: '21px'}}>{`${user.first[0].toUpperCase() + user.first.substring(1)} ${user.last[0].toUpperCase() + user.last.substring(1)}'s Calendar`}</h2>}
+            {minWidth && 
+            <div className="flex-row-around" style={{margin: '10px 0'}}>
+              <div className="switch-btn flex-row-cent" style={{width: '150px'}} onClick={() => dispatch(setSwitch(true))}>Calendar</div>
+              <div className="sign-btn flex-row-cent" style={{width: '150px', margin: '0'}}  onClick={handleSingOut}>Sign Out</div>
             </div>
+            }
             <Details/>
             {selectedEvent && <Event/>}   
-          </div>
-          {!minWidth &&
-          <div className="containers">
-              {!minWidth && <div className="sign-btn flex-row-cent" onClick={handleSingOut}>Sign Out</div>}
+          </div>}
+          {(!minWidth || Switch) &&
+          <div className="containers" style={{justifyContent: minWidth ? "flex-start" :  "space-around"}}>
+            {minWidth && user.id && <h2 style={{marginTop: '-25px', marginLeft:  minWidth && '40px', fontSize: '21px'}}>{`${user.first[0].toUpperCase() + user.first.substring(1)} ${user.last[0].toUpperCase() + user.last.substring(1)}'s Calendar`}</h2>}
+            {minWidth && 
+            <div className="flex-row-around" style={{margin: '10px 0'}}>
+              <div className="switch-btn flex-row-cent" style={minWidth && {width: '150px'}} onClick={() => dispatch(setSwitch(false))}>Events</div>
+              <div className="sign-btn flex-row-cent" style={{width: '150px', margin: '0'}}  onClick={handleSingOut}>Sign Out</div>
+            </div>
+            }
+            {!minWidth && <div className="sign-btn flex-row-cent" onClick={handleSingOut}>Sign Out</div>}
             <Calendar/>
             <FullYear/>
           </div>
-          }
-                
+          }                
         </div>       
       </div>
   );

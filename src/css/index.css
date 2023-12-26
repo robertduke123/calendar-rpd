@@ -19,7 +19,7 @@
 body{
   font-family: sans-serif;
   background-color: var(--background);
-  /* min-height: 100vh; */
+  min-height: 100vh;
 }
 
 .cover{
@@ -34,17 +34,17 @@ body{
 }
 
 .app {
-  width: 70%;
+  width: 100%;
   min-height: 100vh;
   max-height: 100vh;
-  margin: auto;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .containers{
-  width: 49.5%;
-  min-height: 650px;
+  width: 35%;
+  height: 675px;
   margin: 10px 0;
   padding-top: 50px;
   background-color: white;
@@ -114,12 +114,34 @@ body{
 }
 
 
-@media only screen and (max-width: 1125px) {
+@media only screen and (max-width: 1250px) {
+  html {
+      position: fixed;
+      height: 100%;
+      overflow: hidden;
+    }
+  
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+  
   .app{
-    width: 830px;
+    height: 100vh;
+    align-items: flex-start;
 
     & h2{
       margin: 0 20px 0 -160px;
     }
+  }
+
+  .containers{
+    width: 410px;
+    height: 98%;
+    border-radius: 8px !important;
   }
 }

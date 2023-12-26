@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { eachDayOfInterval, startOfToday, startOfYear, endOfYear, format, isBefore, add, sub, parse } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedDay } from './../../state';
+import { setSelectedDay, setSwitch } from './../../state';
 
 export default function FullYear() {
 
@@ -35,9 +35,12 @@ export default function FullYear() {
                 <div key={'full' + indx} className="full-unit" style={{backgroundColor: 'rgb(164, 237, 199)'}}></div> : 
                 format(today, 'dd MMM yyyy') === format(day, 'dd MMM yyyy') ?
                     <div key={'full' + indx} className="full-unit hov" style={{cursor: 'pointer', backgroundColor: 'red'}} onClick={() => dispatch(setSelectedDay(day))}></div> :
-                    items.map((item) => item.dates.includes(format(day, 'E MMM dd yyyy'))).includes(true) || items.map((item) => item[format(day, 'E')]).includes(true) ?
+                    items?.map((item) => item.dates?.includes(format(day, 'E MMM dd yyyy'))).includes(true) || items.map((item) => item[format(day, 'E')]).includes(true) ?
                     <div key={'full' + indx} className="full-unit hov" style={{cursor: 'pointer', backgroundColor: 'lightBlue'}} onClick={() => dispatch(setSelectedDay(day))}></div> :
-                    <div key={'full' + indx} className="full-unit hov" onClick={() => dispatch(setSelectedDay(day))}></div>
+                    <div key={'full' + indx} className="full-unit hov" onClick={() => {
+                        dispatch(setSelectedDay(day))
+                        dispatch(setSwitch(false))
+                    }}></div>
             })}
             </div>
             

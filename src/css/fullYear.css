@@ -27,3 +27,11 @@
 .hov:hover{
     border: .5px solid rgb(67, 67, 67);
 }
+
+@media only screen and (max-width: 1250px) {
+    .full-container {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            gap: 3px;
+        }
+}

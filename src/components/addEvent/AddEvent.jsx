@@ -31,7 +31,7 @@ export default function AddEvent() {
     const [sat, setSat] = useState(editEvent ? editEvent.Sat ? true : false : false)
     
 
-    console.log(editEvent);
+    // console.log(editEvent);
 
     const nextMonth = () => {   
         let firstDayNextMonth = add(firstDayCurrentMonth, {months: 1})
@@ -132,9 +132,12 @@ export default function AddEvent() {
             })
         })
         .then(response => response.json())
-        .then(data => console.log)
+        .then(data => {
+          dispatch(setShowAdd(false)) 
+          dispatch(setEditEvent(false)) 
+        })
 
-        dispatch(setShowAdd(false))
+        
     }
 
 

@@ -10,7 +10,7 @@ import Register from "./components/register/Register";
 
 import { setUser, addEvent, setEventAlarm, showUserInput, setSwitch, setEditEvent, deleteEvent, submitEditEvent } from "./state";
 import { useDispatch, useSelector } from "react-redux";
-import { format } from "date-fns";
+import { format, isBefore, isEqual, parseISO, parse } from "date-fns";
 
 
 function App() {
@@ -47,12 +47,11 @@ const alarm = async () => {
   items.forEach((item) => { 
     let eventTime = item.time
         if(item.period === 'PM') eventTime = `${String(parseInt(item.time[0] + item.time[1]) + 12)}:${item.time[3] + item.time[4]}:${item.time[6] + item.time[7]}`
-    item.dates?.length > 0 ?
+    item.dates.length > 0 ?
     item.dates.forEach((date, index) => {
-      if(date === format(time, 'E MMM dd yyyy')) {        
+      if(date === format(time, 'E MMM dd yyyy')) {   
+        console.log(date ,isBefore(parse(eventTime, 'kk:mm:ss', new Date()), parse(format(time, 'kk:mm:ss'), 'kk:mm:ss', new Date())))
         if(eventTime == format(time, 'kk:mm:ss')) {
-          dispatch(setEditEvent(item))
-          dispatch(setEventAlarm(item))    
           let editDates = [...item.dates]
           editDates.splice(index, 1)
           if (editDates?.length > 0) {
@@ -115,6 +114,66 @@ useEffect(() => {
     alarm()
   }, 1000)
 }, [items, ])
+
+useEffect(() => {
+let time = new Date()
+  items.forEach((item) => { 
+    let eventTime = item.time
+        if(item.period === 'PM') eventTime = `${String(parseInt(item.time[0] + item.time[1]) + 12)}:${item.time[3] + item.time[4]}:${item.time[6] + item.time[7]}`
+    item.dates.length > 0 &&
+    item.dates.forEach((date, index) => {
+      if(date === format(time, 'E MMM dd yyyy') || isBefore(parse(date, 'E MMM dd yyyy', new Date()), parse(format(time, 'E MMM dd yyyy'), 'E MMM dd yyyy', new Date()))) {   
+        console.log(date ,isBefore(parse(eventTime, 'kk:mm:ss', new Date()), parse(format(time, 'kk:mm:ss'), 'kk:mm:ss', new Date())))
+        if(eventTime == format(time, 'kk:mm:ss') || isBefore(parse(eventTime, 'kk:mm:ss', new Date()), parse(format(time, 'kk:mm:ss'), 'kk:mm:ss', new Date()))) {
+          let editDates = [...item.dates]
+          editDates.splice(index, 1)
+          if (editDates?.length > 0) {
+          dispatch(submitEditEvent({
+            ...item,
+            dates: editDates
+          })) 
+        fetch('http://localhost:4000/edit', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: user.email,
+                oldName: item.name, 
+                newName: item.name, 
+                details: item.details, 
+                time: item.time, 
+                dates: editDates, 
+                period: item.period, 
+                Sun: item.Sun, 
+                Mon: item.Mon, 
+                Tue: item.Tue, 
+                Wed: item.Wed, 
+                Thu: item.Thu, 
+                Fri: item.Fri, 
+                Sat: item.Sat
+            })
+        })
+        .then(response => response.json())
+        .then(data => dispatch(setEditEvent(false)))
+      } else {
+          dispatch(setEditEvent(item))
+          dispatch(deleteEvent({}))
+
+          fetch('http://localhost:4000/del', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: user.email, 
+                name: item.name
+            })
+        })
+        .then(response => response.json())
+        .then(data => dispatch(setEditEvent(false)))
+        }
+        }
+      }
+    })
+})
+}, [user])
 
 useEffect(() => {
   const refresh = localStorage.getItem('refreshToken')
@@ -180,10 +239,72 @@ useEffect(() => {
                     }))
                 })}
               dispatch(showUserInput('')) 
-              })
-                }
+
+              // let time = new Date()
+              // items.forEach((item) => { 
+              // let eventTime = item.time
+              // console.log(time, eventTime);
+              // if(item.period === 'PM') eventTime = `${String(parseInt(item.time[0] + item.time[1]) + 12)}:${item.time[3] + item.time[4]}:${item.time[6] + item.time[7]}`
+              // item.dates?.length > 0 &&
+              // item.dates.forEach((date, index) => {
+              //   if(date === format(time, 'E MMM dd yyyy') || isBefore(date, format(time, 'E MMM dd yyyy'))) {        
+              //     if(eventTime == format(time, 'kk:mm:ss') || isBefore(eventTime, format(time, 'kk:mm:ss'))) {
+              //       dispatch(setEditEvent(item))
+              //       dispatch(setEventAlarm(item))    
+              //       let editDates = [...item.dates]
+              //       editDates.splice(index, 1)
+              //       if (editDates?.length > 0) {
+              //       dispatch(submitEditEvent({
+              //         ...item,
+              //         dates: editDates
+              //       })) 
+              //     fetch('http://localhost:4000/edit', {
+              //         method: 'POST',
+              //         headers: {"Content-Type": "application/json"},
+              //         body: JSON.stringify({
+              //             email: user.email,
+              //             oldName: item.name, 
+              //             newName: item.name, 
+              //             details: item.details, 
+              //             time: item.time, 
+              //             dates: editDates, 
+              //             period: item.period, 
+              //             Sun: item.Sun, 
+              //             Mon: item.Mon, 
+              //             Tue: item.Tue, 
+              //             Wed: item.Wed, 
+              //             Thu: item.Thu, 
+              //             Fri: item.Fri, 
+              //             Sat: item.Sat
+              //         })
+              //     })
+              //     .then(response => response.json())
+              //     .then(data => dispatch(setEditEvent(false)))
+              //   } else {
+              //       dispatch(setEditEvent(item))
+              //       dispatch(deleteEvent({}))
+
+              //       fetch('http://localhost:4000/del', {
+              //         method: 'POST',
+              //         headers: {"Content-Type": "application/json"},
+              //         body: JSON.stringify({
+              //             email: user.email, 
+              //             name: item.name
+              //         })
+              //     })
+              //     .then(response => response.json())
+              //     .then(data => dispatch(setEditEvent(false)))
+              //     }
+              //     }
+              //   }
+              // })
+
+              // })
+                
               })
                 .catch(err => console.log(err))
+            }
+            })
 
 }, [])
 

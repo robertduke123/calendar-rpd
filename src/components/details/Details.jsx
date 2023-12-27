@@ -99,7 +99,9 @@ export default function Details() {
         <div className='details flex-col-cent'>
             <div className='flex-row-around' style={{justifyContent: selectedDay !== '' ? 'flex-end' : 'center', width: '300px'}}>
                 <h3 style={{margin: '5px 0 10px', cursor: 'pointer'}}>{selectedDay !== '' ? format(selectedDay, 'E d MMMM yyyy') : 'All Events'}</h3>
-                <div className='plus-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => dispatch(setShowAdd({}))}>+</div>
+                <div className='plus-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => {
+                    dispatch(setEditEvent(false))
+                    dispatch(setShowAdd({}))}}>+</div>
                 {selectedDay !== '' && <div className='x-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => dispatch(setSelectedDay(''))}>X</div>}
             </div>
             

@@ -42,9 +42,9 @@ export default function Register() {
             <div className="register-container flex-col-around">
                 <div className="add-head flex-row-cent">
                     <h3>Register</h3>   
-                    <div className='x-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => {
+                    {/* <div className='x-btn flex-row-cent' style={{marginLeft: '10px'}} onClick={() => {
                         dispatch(showUserInput(''))
-                    }}>X</div>
+                    }}>X</div> */}
                 </div>
 
                 <div className='flex-row-between' style={{width: '80%'}} >

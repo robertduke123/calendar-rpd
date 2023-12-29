@@ -53,6 +53,9 @@ export const storeSlice = createSlice({
             let index = state.items.findIndex(item => item.name === state.editEvent.name)
             state.items.splice(index, 1)
         },
+        emptyEvent: (state) => {
+            state.items = []
+        },
         setEventAlarm: (state, action) => {
             state.eventAlarm = action.payload
         }
@@ -71,6 +74,7 @@ export const {
     setEditEvent,
     submitEditEvent,
     deleteEvent,
+    emptyEvent,
     setEventAlarm
 } = storeSlice.actions
 

@@ -14,7 +14,7 @@ export default function SignIn() {
 
     console.log(items);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (ver) => {
     if(email !== '' && password !== '') {        
         await fetch(
           'http://localhost:4000/log'
@@ -22,8 +22,8 @@ export default function SignIn() {
           method: 'POST',
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify({
-            email: email,
-            password: password
+            email: ver === 'demo' ? 'Demo' : email,
+            password: ver === 'demo' ? 'Demo' : password
           })
           
         })
@@ -138,9 +138,7 @@ export default function SignIn() {
                 })}
             dispatch(showUserInput(''))                        
           })
-        })
-          
-          
+        })            
         }
     }
 
@@ -166,9 +164,10 @@ console.log(user);
                     <input type="password" name="password" id='password' onChange={(e) => setPassword(e.target.value)}/>    
                 </div>   
 
-                <div className="add-btn flex-row-cent" style={{color: 'white'}} onClick={handleSubmit}>Confirm</div>
+                <div className="add-btn flex-row-cent" style={{color: 'white'}} onClick={() => handleSubmit('log')}>Confirm</div>
                 
                 <p className='sign-switch' onClick={() => dispatch(showUserInput('register'))}>register</p>  
+                <p className='sign-switch' onClick={() => handleSubmit('demo')}>demo</p>  
             </div>
         </div>
     )

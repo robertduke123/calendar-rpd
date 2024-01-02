@@ -213,7 +213,6 @@ function App() {
 											}`;
 										let count = 0;
 										dates.forEach((date, index) => {
-											console.log(date, index);
 											if (
 												(date === format(time, "E MMM dd yyyy") &&
 													isBefore(
@@ -238,12 +237,10 @@ function App() {
 												)
 											) {
 												count++;
-												console.log(count);
 											}
 										});
 
 										dates.splice(0, count);
-										console.log(dates);
 										if (dates?.length > 0) {
 											dispatch(
 												addEvent({

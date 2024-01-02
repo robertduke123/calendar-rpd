@@ -88,12 +88,14 @@ export default function Details() {
 
     useEffect(() => {
         items.forEach((item) => {
+            console.log(item.dates.length > 0);
             if(item.dates?.length > 0) {
-                setShow([...show,{name : item.name,show: true}])
+                setShow(prevState => [...prevState,{name : item.name,show: true}])
             }
         })
+        console.log(show);
     }, [items])
-
+    console.log(show);
 
     return(
         <div className='details flex-col-cent'>
@@ -143,6 +145,7 @@ export default function Details() {
                         if(item.dates?.length > 0) {
                             let index = show.findIndex(showItem => showItem.name === item.name)                            
                             if(show[index]?.show) {
+                                console.log(show[index]);
                                 return <div key={'event-dates ' + index} className="event-item">
                                     <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
                                         <p onClick={() => dispatch(setSelectedEvent(item))}>{item.name}</p>    

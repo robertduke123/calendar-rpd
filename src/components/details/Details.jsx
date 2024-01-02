@@ -88,14 +88,11 @@ export default function Details() {
 
     useEffect(() => {
         items.forEach((item) => {
-            console.log(item.dates.length > 0);
             if(item.dates?.length > 0) {
                 setShow(prevState => [...prevState,{name : item.name,show: true}])
             }
         })
-        console.log(show);
     }, [items])
-    console.log(show);
 
     return(
         <div className='details flex-col-cent'>

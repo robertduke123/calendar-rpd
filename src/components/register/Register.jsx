@@ -30,16 +30,16 @@ export default function Register() {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-            // if(data.id) {
-            //      dispatch(setUser({
-            //         id: data[0].id,
-            //         first: data[0].first_name,
-            //         last: data[0].last_name,
-            //         email: data[0].email
-            //     }))   
+            if(data.id) {
+                 dispatch(setUser({
+                    id: data.id,
+                    first: data.first_name,
+                    last: data.last_name,
+                    email: data.email
+                }))   
 
-            //     dispatch(showUserInput(''))      
-            // }          
+                dispatch(showUserInput(''))      
+            }          
             })
     }
     }

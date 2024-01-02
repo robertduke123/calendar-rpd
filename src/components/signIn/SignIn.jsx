@@ -37,107 +37,146 @@ export default function SignIn() {
                 }
             })
             .then(response => response.json())
-            .then(data => {
-                if(data[0].id) {
-                dispatch(setUser({
-                    id: data[0].id,
-                    first: data[0].first_name,
-                    last: data[0].last_name,
-                    email: data[0].email
-                })) 
-                data[0].event_name.forEach((item, index) => {
-                    let dates
-                    data[0].event_dates[index] === "" ? dates = [] : 
-                    data[0].event_dates[index].length <= 15 ? dates = [data[0].event_dates[index]] : 
-                    dates = data[0].event_dates[index].split(', ') 
-                    if(dates.length > 0) {
-                       let time = new Date()
-                        
-                          let eventTime = data[0].event_time[index]
-                          if(data[0].event_period === 'PM') eventTime = `${String(parseInt(data[0].event_time[index][0] + data[0].event_time[index][1]) + 12)}:${data[0].event_time[index][3] + data[0].event_time[index][4]}:${data[0].event_time[index][6] + data[0].event_time[index][7]}`
-                          dates?.length > 0 &&
-                          dates.forEach((date, index) => {
-                            console.log(date + ' ' + eventTime);
-                            if(date === format(time, 'E MMM dd yyyy') || isBefore(parse(date, 'E MMM dd yyyy', new Date()), parse(format(time, 'E MMM dd yyyy'), 'E MMM dd yyyy', new Date()))) {   
-                              if(isBefore(parse((date + ' ' + eventTime), 'E MMM dd yyyy kk:mm:ss', new Date()), parse(format(time, 'E MMM dd yyyy kk:mm:ss'), 'E MMM dd yyyy kk:mm:ss', new Date()))) {
-                                console.log('test');
-                                dates.splice(index, 1)
-                                if (dates?.length > 0) {
+            .then((data) => {
+                if (data[0].id) {
+                    dispatch(
+                        setUser({
+                            id: data[0].id,
+                            first: data[0].first_name,
+                            last: data[0].last_name,
+                            email: data[0].email,
+                        })
+                    );
+                    data[0].event_name.forEach((item, index) => {
+                        let dates;
+                        data[0].event_dates[index] === ""
+                            ? (dates = [])
+                            : data[0].event_dates[index].length <= 15
+                            ? (dates = [data[0].event_dates[index]])
+                            : (dates = data[0].event_dates[index].split(", "));
+                        if (dates.length > 0) {
+                            let time = new Date();
+                            let eventTime = data[0].event_time[index];
+                            if (data[0].event_period === "PM")
+                                eventTime = `${String(
+                                    parseInt(
+                                        data[0].event_time[index][0] +
+                                            data[0].event_time[index][1]
+                                    ) + 12
+                                )}:${
+                                    data[0].event_time[index][3] +
+                                    data[0].event_time[index][4]
+                                }:${
+                                    data[0].event_time[index][6] +
+                                    data[0].event_time[index][7]
+                                }`;
+                            let count = 0;
+                            dates.forEach((date, index) => {
+                                console.log(date, index);
+                                if (
+                                    (date === format(time, "E MMM dd yyyy") &&
+                                        isBefore(
+                                            parse(
+                                                date + " " + eventTime,
+                                                "E MMM dd yyyy kk:mm:ss",
+                                                new Date()
+                                            ),
+                                            parse(
+                                                format(time, "E MMM dd yyyy kk:mm:ss"),
+                                                "E MMM dd yyyy kk:mm:ss",
+                                                new Date()
+                                            )
+                                        )) ||
+                                    isBefore(
+                                        parse(date, "E MMM dd yyyy", new Date()),
+                                        parse(
+                                            format(time, "E MMM dd yyyy"),
+                                            "E MMM dd yyyy",
+                                            new Date()
+                                        )
+                                    )
+                                ) {
+                                    count++;
+                                    console.log(count);
+                                }
+                            });
 
-                                  dispatch(addEvent({
-                                      name: item,
-                                      details: data[0].event_details[index],
-                                      dates: dates,
-                                      time: data[0].event_time[index],
-                                      period: data[0].event_period[index],
-                                      Sun: data[0].event_sun[index],
-                                      Mon: data[0].event_mon[index],
-                                      Tue: data[0].event_tue[index],
-                                      Wed: data[0].event_wed[index],
-                                      Thu: data[0].event_thu[index],
-                                      Fri: data[0].event_fri[index],
-                                      Sat: data[0].event_sat[index]
-                                  }))
+                            dates.splice(0, count);
+                            console.log(dates);
+                            if (dates?.length > 0) {
+                                dispatch(
+                                    addEvent({
+                                        name: item,
+                                        details: data[0].event_details[index],
+                                        dates: dates,
+                                        time: data[0].event_time[index],
+                                        period: data[0].event_period[index],
+                                        Sun: data[0].event_sun[index],
+                                        Mon: data[0].event_mon[index],
+                                        Tue: data[0].event_tue[index],
+                                        Wed: data[0].event_wed[index],
+                                        Thu: data[0].event_thu[index],
+                                        Fri: data[0].event_fri[index],
+                                        Sat: data[0].event_sat[index],
+                                    })
+                                );
 
-                              fetch('http://localhost:4000/edit', {
-                                  method: 'POST',
-                                  headers: {"Content-Type": "application/json"},
-                                  body: JSON.stringify({
-                                      email: data[0].email,
-                                      oldName: item, 
-                                      newName: item, 
-                                      details: data[0].event_details[index], 
-                                      time: data[0].event_time[index], 
-                                      dates: dates, 
-                                      period: data[0].event_period[index],
-                                      Sun: data[0].event_sun[index], 
-                                      Mon: data[0].event_mon[index], 
-                                      Tue: data[0].event_tue[index], 
-                                      Wed: data[0].event_wed[index], 
-                                      Thu: data[0].event_thu[index], 
-                                      Fri: data[0].event_fri[index], 
-                                      Sat: data[0].event_sat[index]
-                                  })
-                              })
-                              .then(response => response.json())
-                              .then(data => dispatch(setEditEvent(false)))
+                                fetch("http://localhost:4000/edit", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                        email: data[0].email,
+                                        oldName: item,
+                                        newName: item,
+                                        details: data[0].event_details[index],
+                                        time: data[0].event_time[index],
+                                        dates: dates,
+                                        period: data[0].event_period[index],
+                                        Sun: data[0].event_sun[index],
+                                        Mon: data[0].event_mon[index],
+                                        Tue: data[0].event_tue[index],
+                                        Wed: data[0].event_wed[index],
+                                        Thu: data[0].event_thu[index],
+                                        Fri: data[0].event_fri[index],
+                                        Sat: data[0].event_sat[index],
+                                    }),
+                                })
+                                    .then((response) => response.json())
+                                    .then((data) => dispatch(setEditEvent(false)));
                             } else {
-                                dispatch(setEditEvent(item))
-                                dispatch(deleteEvent({}))
-
-                                fetch('http://localhost:4000/del', {
-                                  method: 'POST',
-                                  headers: {"Content-Type": "application/json"},
-                                  body: JSON.stringify({
-                                      email: user.email, 
-                                      name: item
-                                  })
-                              })
-                              .then(response => response.json())
-                              .then(data => dispatch(setEditEvent(false)))
-                              }
-                              }
+                                fetch("http://localhost:4000/del", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                        email: data[0].email,
+                                        name: item,
+                                    }),
+                                })
+                                    .then((response) => response.json())
+                                    .then((data) => dispatch(setEditEvent(false)));
                             }
-                          
-                      }) 
-                    } else if(data[0].event_sun || data[0].event_mon || data[0].event_tue || data[0].event_wed || data[0].event_thu || data[0].event_fri || data[0].event_sat)
-                    dispatch(addEvent({
-                      name: item,
-                      details: data[0].event_details[index],
-                      dates: dates,
-                      time: data[0].event_time[index],
-                      period: data[0].event_period[index],
-                      Sun: data[0].event_sun[index],
-                      Mon: data[0].event_mon[index],
-                      Tue: data[0].event_tue[index],
-                      Wed: data[0].event_wed[index],
-                      Thu: data[0].event_thu[index],
-                      Fri: data[0].event_fri[index],
-                      Sat: data[0].event_sat[index]
-                  }))
-                })}
-            dispatch(showUserInput(''))                        
-          })
+                        } else {
+                            dispatch(
+                                addEvent({
+                                    name: item,
+                                    details: data[0].event_details[index],
+                                    dates: dates,
+                                    time: data[0].event_time[index],
+                                    period: data[0].event_period[index],
+                                    Sun: data[0].event_sun[index],
+                                    Mon: data[0].event_mon[index],
+                                    Tue: data[0].event_tue[index],
+                                    Wed: data[0].event_wed[index],
+                                    Thu: data[0].event_thu[index],
+                                    Fri: data[0].event_fri[index],
+                                    Sat: data[0].event_sat[index],
+                                })
+                            );
+                        }
+                    });
+                }
+                dispatch(showUserInput(""));
+            })
         })            
         }
     }

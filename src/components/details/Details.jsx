@@ -3,89 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedEvent, setSelectedDay, setShowAdd, setEditEvent } from './../../state';
 
-export default function Details() {
+export default function Details({sorting}) {
 
     const selectedDay = useSelector(state => state.store.selectedDay)
     const items = useSelector(state => state.store.items)
     const dispatch = useDispatch()
     const [show, setShow] = useState([])
 
-    let dates =[]
-    items.forEach(item => {
-        item?.dates?.forEach(date => dates.push(date))
-    })
+    // let dates =[]
+    // items.forEach(item => {
+    //     item?.dates?.forEach(date => dates.push(date))
+    // })
 
-    function sorting(dates){
-        dates.sort((a,b) => parseInt(a.slice(11)) - parseInt(b.slice(11)))
-        let Jan = []
-        let Feb = []
-        let Mar = []
-        let Apr = []
-        let May = []
-        let Jun = []
-        let Jul = []
-        let Aug = []
-        let Sep = []
-        let Oct = []
-        let Nov = []
-        let Dec = []
-        dates.forEach(date => {
-            if( date.slice(4, 7) === 'Jan') {
-                Jan.push(date)
-                Jan.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Feb') {
-                Feb.push(date)
-                Feb.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Mar') {
-                Mar.push(date)
-                Mar.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Apr') {
-                Apr.push(date)
-                Apr.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'May') {
-                May.push(date)
-                May.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Jun') {
-                Jun.push(date)
-                Jun.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Jul') {
-                Jul.push(date)
-                Jul.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Aug') {
-                Aug.push(date)
-                Aug.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Sep') {
-                Sep.push(date)
-                Sep.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Oct') {
-                Oct.push(date)
-                Oct.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Nov') {
-                Nov.push(date)
-                Nov.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            } 
-            if (date.slice(4, 7) === 'Dec') {
-                Dec.push(date)
-                Dec.sort((a,b) => parseInt(a.slice(8,10)) - parseInt(b.slice(8,10)))
-            }
-       })
-        let newDate = Jan.concat(Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec)    
-        newDate.sort((a,b) => parseInt(a.slice(11)) - parseInt(b.slice(11)))
-        return newDate    
-    }
-
-    let newDates = sorting(dates)
-
+    // let newDates = sorting(dates)
     useEffect(() => {
         items.forEach((item) => {
             if(item.dates?.length > 0) {
@@ -93,6 +23,7 @@ export default function Details() {
             }
         })
     }, [items])
+
 
     return(
         <div className='details flex-col-cent'>
@@ -105,8 +36,7 @@ export default function Details() {
             </div>
             
             <div className="details-container flex-col-cent">
-                {
-                 items?.map((item, index) => {
+                {items?.map((item, index) => {
                     if(selectedDay !== '') {                        
                         if(item.dates.includes(format(selectedDay, 'E MMM dd yyyy')) || item[format(selectedDay, 'E')]) {                     
                         return (
@@ -140,9 +70,10 @@ export default function Details() {
                         </div>
                     )}} else {
                         if(item.dates?.length > 0) {
+                            let itemDates = [...item.dates]
+                            let sorted = sorting(itemDates)
                             let index = show.findIndex(showItem => showItem.name === item.name)                            
                             if(show[index]?.show) {
-                                console.log(show[index]);
                                 return <div key={'event-dates ' + index} className="event-item">
                                     <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
                                         <p onClick={() => dispatch(setSelectedEvent(item))}>{item.name}</p>    
@@ -156,7 +87,7 @@ export default function Details() {
                                         `${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`  
                                         :`${item.time[0]}${item.time[1]}:${item.time[3]}${item.time[4]} ${item.period}`                                
                                         }</h3>   
-                                            <p style={{fontSize: '12px', width:'260px'}}>{item.dates.map(date => date + ' ')}</p>                            
+                                            <p style={{fontSize: '12px', width:'260px'}}>{sorted.map(date => date + ' ')}</p>                            
                                     </div>
                                     {item.dates.length > 1 &&
                                         <div className="arrow" style={{cursor: 'pointer', fontSize: '20px', marginTop: '-20px'}} onClick={() => {
@@ -165,9 +96,7 @@ export default function Details() {
                                     }
                                 </div>
                             } else {
-                                return newDates?.map((newDate, indx) => {
-                                return item.dates.map((date) => {
-                                if(date === newDate) {
+                                return sorted?.map((date, indx) => {
                                 return <div key={'event-dates ' + indx} className="event-item" style={{backgroundColor: 'rgb(111, 194, 221)'}}>
                                     <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>
                                         <p onClick={() => dispatch(setSelectedEvent(item))}>{item.name}</p>    
@@ -189,9 +118,8 @@ export default function Details() {
                                         }}>&#8963;</div>
                                     }                                    
                                 </div>   
-                                }})})
-                            }
-                        
+                            })
+                            }                        
                         } else {
                         return <div key={'event-days' + index} className="event-item">
                             <div className='flex-row-around' style={{width: '65%', marginLeft: '140px', justifyContent: 'space-between'}}>

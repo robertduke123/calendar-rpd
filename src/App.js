@@ -62,13 +62,22 @@ function App() {
 						if (date === format(time, "E MMM dd yyyy")) {
 							if (eventTime === format(time, "kk:mm:ss")) {
 								dispatch(setEventAlarm(item));
+								dispatch(setEditEvent(item));
 								let editDates = [...item.dates];
-								editDates.splice(index, 1);
-								if (editDates?.length > 0) {
+								let sorted = sorting(editDates);
+								sorted.splice(0, 1);
+								console.log(
+									{
+										...item,
+										dates: sorted,
+									},
+									item
+								);
+								if (sorted?.length > 0) {
 									dispatch(
 										submitEditEvent({
 											...item,
-											dates: editDates,
+											dates: sorted,
 										})
 									);
 									fetch("http://localhost:4000/edit", {
@@ -92,9 +101,10 @@ function App() {
 										}),
 									})
 										.then((response) => response.json())
-										.then((data) => dispatch(setEditEvent(false)));
+										.then((data) => {
+											dispatch(setEditEvent(false));
+										});
 								} else {
-									dispatch(setEditEvent(item));
 									dispatch(deleteEvent({}));
 
 									fetch("http://localhost:4000/del", {
@@ -337,6 +347,87 @@ function App() {
 		dispatch(showUserInput("sign"));
 	};
 
+	function sorting(dates) {
+		dates.sort((a, b) => parseInt(a.slice(11)) - parseInt(b.slice(11)));
+		let Jan = [];
+		let Feb = [];
+		let Mar = [];
+		let Apr = [];
+		let May = [];
+		let Jun = [];
+		let Jul = [];
+		let Aug = [];
+		let Sep = [];
+		let Oct = [];
+		let Nov = [];
+		let Dec = [];
+		dates.forEach((date) => {
+			if (date.slice(4, 7) === "Jan") {
+				Jan.push(date);
+				Jan.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Feb") {
+				Feb.push(date);
+				Feb.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Mar") {
+				Mar.push(date);
+				Mar.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Apr") {
+				Apr.push(date);
+				Apr.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "May") {
+				May.push(date);
+				May.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Jun") {
+				Jun.push(date);
+				Jun.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Jul") {
+				Jul.push(date);
+				Jul.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Aug") {
+				Aug.push(date);
+				Aug.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Sep") {
+				Sep.push(date);
+				Sep.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Oct") {
+				Oct.push(date);
+				Oct.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Nov") {
+				Nov.push(date);
+				Nov.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+			if (date.slice(4, 7) === "Dec") {
+				Dec.push(date);
+				Dec.sort((a, b) => parseInt(a.slice(8, 10)) - parseInt(b.slice(8, 10)));
+			}
+		});
+		let newDate = Jan.concat(
+			Feb,
+			Mar,
+			Apr,
+			May,
+			Jun,
+			Jul,
+			Aug,
+			Sep,
+			Oct,
+			Nov,
+			Dec
+		);
+		newDate.sort((a, b) => parseInt(a.slice(11)) - parseInt(b.slice(11)));
+		return newDate;
+	}
+
 	return (
 		<div>
 			{eventAlarm && <Alarm />}
@@ -378,7 +469,7 @@ function App() {
 								</div>
 							</div>
 						)}
-						<Details />
+						<Details sorting={sorting} />
 						{selectedEvent && <Event />}
 					</div>
 				)}

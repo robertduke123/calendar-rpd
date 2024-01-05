@@ -44,7 +44,6 @@ return(
 
             {
                 days.map((day, dayIndx) => {
-                    // console.log(isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))))
                     let colorClass = 
                         isBefore(day, today) ? 'calendar-unit before' :
                         selectedDay !== '' && items?.map((item) => item.dates?.includes(format(day, 'E MMM dd yyyy'))).includes(true) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && isEqual(parseISO(format(day, "yyyy-MM-dd'T'HH:mm:ss.SSSX")), parseISO(format(selectedDay, "yyyy-MM-dd'T'HH:mm:ss.SSSX"))) ||

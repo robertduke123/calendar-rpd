@@ -24,7 +24,7 @@ export default function FullYear() {
 
     return(
         <div className="full-year">
-            <div className="calendar-head">
+            <div className="calendar-head flex-row-cent">
                 <h3>{currentYear}</h3>
                 <div className="dir-btn" onClick={prevYear}>&#10094;</div>            
                 <div className="dir-btn" onClick={nextYear}>&#10095;</div>

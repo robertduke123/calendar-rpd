@@ -29,9 +29,6 @@ export default function AddEvent() {
     const [thu, setThu] = useState(editEvent ? editEvent.Thu ? true : false : false)
     const [fri, setFri] = useState(editEvent ? editEvent.Fri ? true : false : false)
     const [sat, setSat] = useState(editEvent ? editEvent.Sat ? true : false : false)
-    
-
-    // console.log(editEvent);
 
     const nextMonth = () => {   
         let firstDayNextMonth = add(firstDayCurrentMonth, {months: 1})

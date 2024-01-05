@@ -66,13 +66,6 @@ function App() {
 								let editDates = [...item.dates];
 								let sorted = sorting(editDates);
 								sorted.splice(0, 1);
-								console.log(
-									{
-										...item,
-										dates: sorted,
-									},
-									item
-								);
 								if (sorted?.length > 0) {
 									dispatch(
 										submitEditEvent({

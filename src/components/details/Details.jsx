@@ -9,13 +9,7 @@ export default function Details({sorting}) {
     const items = useSelector(state => state.store.items)
     const dispatch = useDispatch()
     const [show, setShow] = useState([])
-
-    // let dates =[]
-    // items.forEach(item => {
-    //     item?.dates?.forEach(date => dates.push(date))
-    // })
-
-    // let newDates = sorting(dates)
+    
     useEffect(() => {
         items.forEach((item) => {
             if(item.dates?.length > 0) {

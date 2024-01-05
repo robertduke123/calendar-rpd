@@ -9,11 +9,6 @@ export default function SignIn() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const user = useSelector(state => state.store.user)
-    const items = useSelector(state => state.store.items)
-
-    console.log(items);
-
     const handleSubmit = async (ver) => {
     if(ver === 'demo' || email !== '' && password !== '') {        
         await fetch(
@@ -71,8 +66,7 @@ export default function SignIn() {
                                     data[0].event_time[index][7]
                                 }`;
                             let count = 0;
-                            dates.forEach((date, index) => {
-                                console.log(date, index);
+                            dates.forEach((date) => {
                                 if (
                                     (date === format(time, "E MMM dd yyyy") &&
                                         isBefore(
@@ -97,12 +91,10 @@ export default function SignIn() {
                                     )
                                 ) {
                                     count++;
-                                    console.log(count);
                                 }
                             });
 
                             dates.splice(0, count);
-                            console.log(dates);
                             if (dates?.length > 0) {
                                 dispatch(
                                     addEvent({
@@ -180,8 +172,6 @@ export default function SignIn() {
         })            
         }
     }
-
-console.log(user);
 
     return(
         <div className='sign-in cover' style={{justifyContent: 'flex-start'}}>

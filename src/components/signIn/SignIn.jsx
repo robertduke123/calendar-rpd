@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser, addEvent, showUserInput, setEditEvent, deleteEvent} from "../../state";
+import { setUser, addEvent, showUserInput, setEditEvent} from "../../state";
 import { format, isBefore, parse } from "date-fns";
 
 export default function SignIn() {
@@ -15,7 +15,7 @@ export default function SignIn() {
     console.log(items);
 
     const handleSubmit = async (ver) => {
-    if(email !== '' && password !== '') {        
+    if(ver === 'demo' || email !== '' && password !== '') {        
         await fetch(
           'http://localhost:4000/log'
         , {

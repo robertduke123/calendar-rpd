@@ -195,8 +195,8 @@ export default function AddEvent() {
 
                 {change ? 
                 <div className='calendar flex-col-cent' style={{width: '285px', height: '275px', margin: '0', color: 'black', fontSize: '14px'}}>
-                    <div className="calendar-head" style={{margin: '5px'}}>
-                        <h3 style={{margin: '0'}}>{format(firstDayCurrentMonth, 'MMMM yyyy')}</h3>
+                    <div className="calendar-head flex-row-around" style={{margin: '5px'}}>
+                        <h3 style={{width: '150px', margin: '0'}}>{format(firstDayCurrentMonth, 'MMMM yyyy')}</h3>
                         <div className="dir-btn" onClick={prevMonth}>&#10094;</div>            
                         <div className="dir-btn" onClick={nextMonth}>&#10095;</div>
                         <div className='change flex-row-cent' onClick={() => {
@@ -261,9 +261,9 @@ export default function AddEvent() {
                     </div>
                 </div> :
                 <div className='add-week'>
-                    <div className="calendar-head" style={{margin: '5px'}}>
+                    <div className="calendar-head flex-row-cent" style={{margin: '5px'}}>
                         <h3>Every Week</h3>
-                        <div className='change flex-row-cent' style={{marginRight: '-67px'}} onClick={() => {
+                        <div className='change flex-row-cent' style={{marginRight: '-60px'}} onClick={() => {
                             setChange(!change)
                             setSun(false)
                             setMon(false)

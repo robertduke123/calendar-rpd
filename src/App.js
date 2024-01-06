@@ -73,26 +73,30 @@ function App() {
 											dates: sorted,
 										})
 									);
-									fetch("http://localhost:4000/edit", {
-										method: "POST",
-										headers: { "Content-Type": "application/json" },
-										body: JSON.stringify({
-											email: user.email,
-											oldName: item.name,
-											newName: item.name,
-											details: item.details,
-											time: item.time,
-											dates: editDates,
-											period: item.period,
-											Sun: item.Sun,
-											Mon: item.Mon,
-											Tue: item.Tue,
-											Wed: item.Wed,
-											Thu: item.Thu,
-											Fri: item.Fri,
-											Sat: item.Sat,
-										}),
-									})
+									fetch(
+										"https://calendar-api-8mck.onrender.com/edit",
+										// "http://localhost:4000/edit"
+										{
+											method: "POST",
+											headers: { "Content-Type": "application/json" },
+											body: JSON.stringify({
+												email: user.email,
+												oldName: item.name,
+												newName: item.name,
+												details: item.details,
+												time: item.time,
+												dates: editDates,
+												period: item.period,
+												Sun: item.Sun,
+												Mon: item.Mon,
+												Tue: item.Tue,
+												Wed: item.Wed,
+												Thu: item.Thu,
+												Fri: item.Fri,
+												Sat: item.Sat,
+											}),
+										}
+									)
 										.then((response) => response.json())
 										.then((data) => {
 											dispatch(setEditEvent(false));
@@ -100,14 +104,18 @@ function App() {
 								} else {
 									dispatch(deleteEvent({}));
 
-									fetch("http://localhost:4000/del", {
-										method: "POST",
-										headers: { "Content-Type": "application/json" },
-										body: JSON.stringify({
-											email: user.email,
-											name: item.name,
-										}),
-									})
+									fetch(
+										"https://calendar-api-8mck.onrender.com/del",
+										// "http://localhost:4000/del"
+										{
+											method: "POST",
+											headers: { "Content-Type": "application/json" },
+											body: JSON.stringify({
+												email: user.email,
+												name: item.name,
+											}),
+										}
+									)
 										.then((response) => response.json())
 										.then((data) => dispatch(setEditEvent(false)));
 								}
@@ -160,13 +168,17 @@ function App() {
 				dispatch(deleteEvent({}));
 			});
 		}
-		fetch("http://localhost:4000/token", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				token: refresh,
-			}),
-		})
+		fetch(
+			"https://calendar-api-8mck.onrender.com/token",
+			// "http://localhost:4000/token"
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					token: refresh,
+				}),
+			}
+		)
 			.then((response) => {
 				if (response.status !== 403) {
 					return response.json();
@@ -174,12 +186,16 @@ function App() {
 			})
 			.then((data) => {
 				if (data?.length > 15) {
-					fetch("http://localhost:4000/post", {
-						headers: {
-							Authorization: `Bearer ${data}`,
-							"Content-Type": "application/json",
-						},
-					})
+					fetch(
+						"https://calendar-api-8mck.onrender.com/post",
+						// "http://localhost:4000/post"
+						{
+							headers: {
+								Authorization: `Bearer ${data}`,
+								"Content-Type": "application/json",
+							},
+						}
+					)
 						.then((response) => response.json())
 						.then((data) => {
 							if (data[0].id) {
@@ -262,37 +278,45 @@ function App() {
 												})
 											);
 
-											fetch("http://localhost:4000/edit", {
-												method: "POST",
-												headers: { "Content-Type": "application/json" },
-												body: JSON.stringify({
-													email: data[0].email,
-													oldName: item,
-													newName: item,
-													details: data[0].event_details[index],
-													time: data[0].event_time[index],
-													dates: dates,
-													period: data[0].event_period[index],
-													Sun: data[0].event_sun[index],
-													Mon: data[0].event_mon[index],
-													Tue: data[0].event_tue[index],
-													Wed: data[0].event_wed[index],
-													Thu: data[0].event_thu[index],
-													Fri: data[0].event_fri[index],
-													Sat: data[0].event_sat[index],
-												}),
-											})
+											fetch(
+												"https://calendar-api-8mck.onrender.com/edit",
+												// "http://localhost:4000/edit"
+												{
+													method: "POST",
+													headers: { "Content-Type": "application/json" },
+													body: JSON.stringify({
+														email: data[0].email,
+														oldName: item,
+														newName: item,
+														details: data[0].event_details[index],
+														time: data[0].event_time[index],
+														dates: dates,
+														period: data[0].event_period[index],
+														Sun: data[0].event_sun[index],
+														Mon: data[0].event_mon[index],
+														Tue: data[0].event_tue[index],
+														Wed: data[0].event_wed[index],
+														Thu: data[0].event_thu[index],
+														Fri: data[0].event_fri[index],
+														Sat: data[0].event_sat[index],
+													}),
+												}
+											)
 												.then((response) => response.json())
 												.then((data) => dispatch(setEditEvent(false)));
 										} else {
-											fetch("http://localhost:4000/del", {
-												method: "POST",
-												headers: { "Content-Type": "application/json" },
-												body: JSON.stringify({
-													email: data[0].email,
-													name: item,
-												}),
-											})
+											fetch(
+												"https://calendar-api-8mck.onrender.com/del",
+												// "http://localhost:4000/del"
+												{
+													method: "POST",
+													headers: { "Content-Type": "application/json" },
+													body: JSON.stringify({
+														email: data[0].email,
+														name: item,
+													}),
+												}
+											)
 												.then((response) => response.json())
 												.then((data) => dispatch(setEditEvent(false)));
 										}
@@ -326,13 +350,17 @@ function App() {
 	const handleSingOut = () => {
 		dispatch(emptyEvent({}));
 
-		fetch("http://localhost:4000/logout", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				email: user.email,
-			}),
-		})
+		fetch(
+			"https://calendar-api-8mck.onrender.com/logout",
+			// "http://localhost:4000/logout"
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					email: user.email,
+				}),
+			}
+		)
 			.then((response) => response.json())
 			.then((data) => console.log);
 		dispatch(setUser({}));

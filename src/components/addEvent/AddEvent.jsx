@@ -66,7 +66,10 @@ export default function AddEvent() {
         selectedEvent === editEvent && dispatch(setSelectedEvent(payload))
         dispatch(setEditEvent(false))
 
-        await fetch('http://localhost:4000/edit', {
+        await fetch(
+            "https://calendar-api-8mck.onrender.com/edit"
+            // 'http://localhost:4000/edit'
+            , {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -91,7 +94,10 @@ export default function AddEvent() {
         
         } else {
         dispatch(addEvent(payload))        
-        await fetch('http://localhost:4000/add', {
+        await fetch(
+            "https://calendar-api-8mck.onrender.com/add"
+            // 'http://localhost:4000/add'
+            , {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -120,7 +126,10 @@ export default function AddEvent() {
     const submitDel = async() => {
         dispatch(deleteEvent({}))
 
-        await fetch('http://localhost:4000/del', {
+        await fetch(
+            "https://calendar-api-8mck.onrender.com/del"
+            // 'http://localhost:4000/del'
+            , {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({

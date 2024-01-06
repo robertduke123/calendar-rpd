@@ -15,8 +15,8 @@ export default function Register() {
 
     if(password === confPassword) {
         fetch(
-        'http://localhost:4000/register'
-        // 'https://e-store-api-0tkm.onrender.com/register'
+            "https://calendar-api-8mck.onrender.com/register"
+        // 'http://localhost:4000/register'
         , {
             method: 'POST',
             headers: {"Content-Type": "application/json"},

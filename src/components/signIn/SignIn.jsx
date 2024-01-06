@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUser, addEvent, showUserInput, setEditEvent} from "../../state";
 import { format, isBefore, parse } from "date-fns";
 
@@ -12,7 +12,8 @@ export default function SignIn() {
     const handleSubmit = async (ver) => {
     if(ver === 'demo' || email !== '' && password !== '') {        
         await fetch(
-          'http://localhost:4000/log'
+        "https://calendar-api-8mck.onrender.com/log"
+        //   'http://localhost:4000/log'
         , {
           method: 'POST',
           headers: {"Content-Type": "application/json"},
@@ -25,7 +26,10 @@ export default function SignIn() {
         .then(response => response.json())
         .then(data => {
             localStorage.setItem('refreshToken', data.refreshToken)
-           fetch('http://localhost:4000/post', {
+           fetch(
+            "https://calendar-api-8mck.onrender.com/post"
+            // 'http://localhost:4000/post'
+            , {
                  headers: {
                     "Authorization": `Bearer ${data.accessToken}`,
                     "Content-Type": "application/json"
@@ -113,7 +117,10 @@ export default function SignIn() {
                                     })
                                 );
 
-                                fetch("http://localhost:4000/edit", {
+                                fetch(
+                                    "https://calendar-api-8mck.onrender.com/edit"
+                                    // "http://localhost:4000/edit"
+                                    , {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({
@@ -136,7 +143,10 @@ export default function SignIn() {
                                     .then((response) => response.json())
                                     .then((data) => dispatch(setEditEvent(false)));
                             } else {
-                                fetch("http://localhost:4000/del", {
+                                fetch(
+                                    "https://calendar-api-8mck.onrender.com/del"
+                                    // "http://localhost:4000/del"
+                                    , {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({

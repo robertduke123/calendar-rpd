@@ -470,9 +470,15 @@ function App() {
 									marginTop: "-25px",
 									marginLeft: minWidth && "40px",
 									fontSize: "21px",
-								}}>{`${user.first[0].toUpperCase() + user.first.substring(1)} ${
-								user.last[0].toUpperCase() + user.last.substring(1)
-							}'s Calendar`}</h2>
+								}}>
+								{`${user.first[0].toUpperCase() + user.first.substring(1)} ${
+									user.last[0].toUpperCase() + user.last.substring(1)
+								}` +
+									user.first_name ===
+								"Demo"
+									? ""
+									: "'s" + `Calendar`}
+							</h2>
 						)}
 						{minWidth && (
 							<div className="flex-row-around" style={{ margin: "10px 0" }}>

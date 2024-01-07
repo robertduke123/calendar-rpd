@@ -10,6 +10,7 @@ export default function SignIn() {
     const [password, setPassword] = useState('')
 
     const handleSubmit = async (ver) => {
+        console.log(email, password);
     if(ver === 'demo' || email !== '' && password !== '') {        
         await fetch(
         "https://calendar-api-8mck.onrender.com/log"
@@ -25,6 +26,7 @@ export default function SignIn() {
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             localStorage.setItem('refreshToken', data.refreshToken)
            fetch(
             "https://calendar-api-8mck.onrender.com/post"

@@ -473,11 +473,7 @@ function App() {
 								}}>
 								{`${user.first[0].toUpperCase() + user.first.substring(1)} ${
 									user.last[0].toUpperCase() + user.last.substring(1)
-								}` +
-									user.first_name ===
-								"Demo"
-									? ""
-									: "'s" + `Calendar`}
+								}${user.first === "Demo" ? "" : "'s"} Calendar`}
 							</h2>
 						)}
 						{minWidth && (

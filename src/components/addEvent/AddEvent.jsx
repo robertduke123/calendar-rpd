@@ -34,7 +34,6 @@ export default function AddEvent() {
 	const editEvent = useSelector((state) => state.store.editEvent);
 	const selectedEvent = useSelector((state) => state.store.selectedEvent);
 	const selectedDay = useSelector((state) => state.store.selectedDay);
-	console.log(selectedDay);
 
 	const [change, setChange] = useState(
 		editEvent ? (editEvent?.dates.length > 0 ? true : false) : true
@@ -49,7 +48,11 @@ export default function AddEvent() {
 		editEvent ? editEvent.period === "PM" && false : true
 	);
 	const [dates, setDates] = useState(
-		editEvent ? [...editEvent.dates] : [format(selectedDay, "E MMM dd yyyy")]
+		editEvent
+			? [...editEvent.dates]
+			: selectedDay
+			? [format(selectedDay, "E MMM dd yyyy")]
+			: []
 	);
 	const [name, setName] = useState(editEvent ? editEvent.name : "");
 	const [description, setDescription] = useState(

@@ -505,18 +505,18 @@ function App() {
 						{minWidth && user.id && (
 							<h2
 								style={{
-									marginTop: "-25px",
+									marginTop: "-45px",
 									marginLeft: minWidth && "40px",
 									fontSize: "21px",
 								}}>{`${user.first[0].toUpperCase() + user.first.substring(1)} ${
 								user.last[0].toUpperCase() + user.last.substring(1)
 							}'s Calendar`}</h2>
 						)}
-						{minWidth && (
-							<div className="flex-row-around" style={{ margin: "10px 0" }}>
+						{minWidth ? (
+							<div className="flex-row-around">
 								<div
 									className="switch-btn flex-row-cent"
-									style={minWidth && { width: "150px" }}
+									style={{ width: "150px" }}
 									onClick={() => dispatch(setSwitch(false))}>
 									Events
 								</div>
@@ -527,8 +527,7 @@ function App() {
 									Sign Out
 								</div>
 							</div>
-						)}
-						{!minWidth && (
+						) : (
 							<div className="sign-btn flex-row-cent" onClick={handleSingOut}>
 								Sign Out
 							</div>

@@ -1,112 +1,110 @@
 .calendar {
-    width: 100%;
-    height: 320px;
-    margin-top: 5px;
-    background-color: white;
-    border-radius: 10px;
-
+	width: 100%;
+	height: 320px;
+	/* margin-top: 5px; */
+	background-color: white;
+	border-radius: 10px;
 }
 
 .calendar-head {
-    width: 100%;
-    padding: 0 10px;
-    margin: 15px 0 10px;
-    /* display: flex; */
-    /* justify-content: center; */
-    /* align-items: center; */
+	width: 100%;
+	padding: 0 10px;
+	margin: 15px 0 10px;
+	/* display: flex; */
+	/* justify-content: center; */
+	/* align-items: center; */
 
-    & h3 {
-        margin-right: 50px;
-    }
+	& h3 {
+		margin-right: 50px;
+	}
 }
 
 .dir-btn {
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    margin-left: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	margin-left: 30px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .dir-btn:hover {
-    background-color: var(--background);
+	background-color: var(--background);
 }
 
 .calendar-store {
-    width: 90%;
-    height: 300px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    justify-items: center;
+	width: 90%;
+	height: 300px;
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	justify-items: center;
 }
 
 .calendar-unit {
-    width: 35px;
-    height: 35px;
-    margin: 2.5px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(139, 139, 139);
+	width: 35px;
+	height: 35px;
+	margin: 2.5px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: rgb(139, 139, 139);
 
-    & h1 {
-        font-size: 18px;
-        color: rgb(48, 48, 48);
-    }
+	& h1 {
+		font-size: 18px;
+		color: rgb(48, 48, 48);
+	}
 }
 
 .month:hover,
 .day:hover,
 .ev:hover {
-    background-color: rgb(233, 233, 233);
+	background-color: rgb(233, 233, 233);
 }
 
 .month {
-    cursor: pointer;
-    color: black
+	cursor: pointer;
+	color: black;
 }
 
-.select-month{
-    cursor: pointer;
-    background-color: rgb(43, 126, 189);
-    color: white;
+.select-month {
+	cursor: pointer;
+	background-color: rgb(43, 126, 189);
+	color: white;
 }
-
 
 .day {
-    cursor: pointer;
-    color: red;
+	cursor: pointer;
+	color: red;
 }
 
 .select-day,
 .select-day:hover {
-    cursor: pointer;
-    background-color: red;
-    color: white;
+	cursor: pointer;
+	background-color: red;
+	color: white;
 }
 
-.before{
-    cursor: default; 
-    background-color: rgb(164, 237, 199);
+.before {
+	cursor: default;
+	background-color: rgb(164, 237, 199);
 }
 
-.ev{
-    cursor: pointer;
-    background-color: rgb(219, 246, 255);
-    color: black;
+.ev {
+	cursor: pointer;
+	background-color: rgb(219, 246, 255);
+	color: black;
 }
 
-.select-ev{
-    background-color: rgb(130, 182, 199);
-    color: white;
+.select-ev {
+	background-color: rgb(130, 182, 199);
+	color: white;
 }
 
-.add{
-    cursor: pointer;
-    background-color: rgb(104, 144, 219);
-    color: white;
+.add {
+	cursor: pointer;
+	background-color: rgb(104, 144, 219);
+	color: white;
 }
